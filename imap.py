@@ -3,14 +3,21 @@ import email
 from email.header import decode_header
 import json
 import time
+import os
+import re
+from pathlib import Path
 
 class SimpleGmailInboxLoader:
-    def __init__(self, email_address, password):
+    def __init__(self, email_address, password, attachments_folder="attachments"):
         self.email_address = email_address
         self.password = password
         self.imap_server = "imap.gmail.com"
         self.imap_port = 993
         self.mail = None
+        self.attachments_folder = attachments_folder
+        
+        # Создаем папку для вложений если её нет
+        Path(self.attachments_folder).mkdir(exist_ok=True)
     
     def connect(self):
         """Подключение к Gmail IMAP серверу"""
@@ -47,31 +54,93 @@ class SimpleGmailInboxLoader:
                 decoded_string += word
         return decoded_string
     
-    def get_message_body(self, msg):
-        """Извлечение тела сообщения"""
+    def sanitize_filename(self, filename):
+        """Очистка имени файла от недопустимых символов"""
+        if not filename:
+            return "unknown_file"
+        
+        # Убираем недопустимые символы для имен файлов
+        filename = re.sub(r'[<>:"/\\|?*]', '_', filename)
+        filename = filename.strip('. ')
+        
+        # Ограничиваем длину имени файла
+        if len(filename) > 200:
+            name, ext = os.path.splitext(filename)
+            filename = name[:200-len(ext)] + ext
+        
+        return filename if filename else "unknown_file"
+    
+    def save_attachment(self, part, message_id, attachment_index):
+        """Сохранение вложения"""
+        try:
+            filename = part.get_filename()
+            if filename:
+                filename = self.decode_mime_words(filename)
+                filename = self.sanitize_filename(filename)
+            else:
+                # Если имя файла не указано, создаем его на основе типа содержимого
+                content_type = part.get_content_type()
+                ext = content_type.split('/')[-1] if '/' in content_type else 'bin'
+                filename = f"attachment_{attachment_index}.{ext}"
+            
+            # Создаем уникальное имя файла для избежания конфликтов
+            base_filename = filename
+            counter = 1
+            while os.path.exists(os.path.join(self.attachments_folder, filename)):
+                name, ext = os.path.splitext(base_filename)
+                filename = f"{name}_{counter}{ext}"
+                counter += 1
+            
+            filepath = os.path.join(self.attachments_folder, filename)
+            
+            # Сохраняем файл
+            with open(filepath, 'wb') as f:
+                f.write(part.get_payload(decode=True))
+            
+            print(f"    💾 Сохранено вложение: {filename}")
+            return filepath
+        
+        except Exception as e:
+            print(f"    ❌ Ошибка сохранения вложения: {e}")
+            return None
+    
+    def get_message_body_and_attachments(self, msg, message_id):
+        """Извлечение тела сообщения и обработка вложений"""
         body = ""
+        attachments = []
+        attachment_index = 0
         
         if msg.is_multipart():
             for part in msg.walk():
                 content_type = part.get_content_type()
                 content_disposition = str(part.get("Content-Disposition"))
                 
+                # Обрабатываем текстовую часть
                 if content_type == "text/plain" and "attachment" not in content_disposition:
                     try:
                         body = part.get_payload(decode=True).decode('utf-8')
-                        break
                     except:
                         try:
                             body = part.get_payload(decode=True).decode('cp1251')
-                            break
                         except:
                             try:
                                 body = part.get_payload(decode=True).decode('utf-8', errors='replace')
-                                break
                             except:
                                 body = str(part.get_payload(decode=True))
-                                break
+                
+                # Обрабатываем вложения
+                elif "attachment" in content_disposition or part.get_filename():
+                    attachment_index += 1
+                    filepath = self.save_attachment(part, message_id, attachment_index)
+                    if filepath:
+                        attachments.append({
+                            "filename": os.path.basename(filepath),
+                            "filepath": filepath,
+                            "content_type": content_type,
+                            "size": len(part.get_payload(decode=True)) if part.get_payload(decode=True) else 0
+                        })
         else:
+            # Для не-multipart сообщений
             try:
                 body = msg.get_payload(decode=True).decode('utf-8')
             except:
@@ -83,10 +152,19 @@ class SimpleGmailInboxLoader:
                     except:
                         body = str(msg.get_payload(decode=True))
         
-        return body
+        # Добавляем информацию о вложениях в тело сообщения
+        if attachments:
+            body += "\n\n📎 ВЛОЖЕНИЯ:\n"
+            for att in attachments:
+                size_kb = att['size'] / 1024 if att['size'] > 0 else 0
+                body += f"  • {att['filename']} ({size_kb:.1f} KB)\n"
+                body += f"    Путь: {att['filepath']}\n"
+                body += f"    Тип: {att['content_type']}\n"
+        
+        return body, attachments
     
     def load_inbox_messages(self):
-        """Загружает ВСЕ сообщения только из папки INBOX"""
+        """Загружает ВСЕ сообщения только из папки INBOX с вложениями"""
         messages = []
         folder_name = "INBOX"
         
@@ -114,8 +192,9 @@ class SimpleGmailInboxLoader:
             message_ids = message_ids[0].split()
             print(f"Начинаем загрузку {len(message_ids)} сообщений из {folder_name}...")
             
-            # Счетчик успешно обработанных сообщений
+            # Счетчики
             processed_count = 0
+            total_attachments = 0
             
             # Обрабатываем каждое сообщение
             for i, msg_id in enumerate(message_ids):
@@ -132,7 +211,9 @@ class SimpleGmailInboxLoader:
                         sender = self.decode_mime_words(email_message.get("From", ""))
                         receiver = self.decode_mime_words(email_message.get("To", ""))
                         date = email_message.get("Date", "")
-                        body = self.get_message_body(email_message)
+                        
+                        # Извлекаем тело сообщения и обрабатываем вложения
+                        body, attachments = self.get_message_body_and_attachments(email_message, msg_id.decode())
                         
                         message_info = {
                             "id": msg_id.decode(),
@@ -141,11 +222,17 @@ class SimpleGmailInboxLoader:
                             "from": sender,
                             "to": receiver,
                             "date": date,
-                            "body": body
+                            "body": body,
+                            "attachments_count": len(attachments),
+                            "attachments": attachments
                         }
                         
                         messages.append(message_info)
                         processed_count += 1
+                        total_attachments += len(attachments)
+                        
+                        if attachments:
+                            print(f"    📎 Найдено {len(attachments)} вложений")
                         
                         # Небольшая задержка для избежания перегрузки сервера
                         time.sleep(0.1)
@@ -158,6 +245,7 @@ class SimpleGmailInboxLoader:
                     continue
             
             print(f"✅ Успешно обработано {processed_count} из {len(message_ids)} сообщений из {folder_name}")
+            print(f"📎 Всего загружено вложений: {total_attachments}")
             return messages
             
         except Exception as e:
@@ -170,8 +258,8 @@ def main():
     EMAIL = "test.server.composer@gmail.com"
     PASSWORD = "vigd xbrg ofcp zqma"  # Пароль приложения
     
-    # Создаем загрузчик
-    loader = SimpleGmailInboxLoader(EMAIL, PASSWORD)
+    # Создаем загрузчик (вложения будут сохранены в папку "attachments")
+    loader = SimpleGmailInboxLoader(EMAIL, PASSWORD, "attachments")
     
     # Подключаемся
     if not loader.connect():
@@ -185,12 +273,19 @@ def main():
         
         if inbox_messages:
             # Сохраняем в JSON файл
-            filename = "inbox_messages.json"
+            filename = "inbox_messages_with_attachments.json"
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(inbox_messages, f, ensure_ascii=False, indent=2)
             
+            # Подсчитываем статистику
+            total_attachments = sum(msg['attachments_count'] for msg in inbox_messages)
+            messages_with_attachments = sum(1 for msg in inbox_messages if msg['attachments_count'] > 0)
+            
             print(f"\n🎉 ГОТОВО! Загружено и сохранено {len(inbox_messages)} сообщений из INBOX")
             print(f"💾 Все сообщения сохранены в файл: {filename}")
+            print(f"📎 Сообщений с вложениями: {messages_with_attachments}")
+            print(f"📁 Всего вложений загружено: {total_attachments}")
+            print(f"📂 Вложения сохранены в папку: {loader.attachments_folder}/")
             
             # Дополнительная проверка
             print(f"\n🔍 ПРОВЕРКА: В JSON файле содержится {len(inbox_messages)} записей")
@@ -202,6 +297,9 @@ def main():
                     print(f"   {i+1}. От: {msg['from']}")
                     print(f"      Тема: {msg['subject']}")
                     print(f"      Дата: {msg['date']}")
+                    print(f"      Вложений: {msg['attachments_count']}")
+                    if msg['attachments']:
+                        print(f"      Файлы: {', '.join([att['filename'] for att in msg['attachments']])}")
                     print()
             
         else:
