@@ -57,3 +57,13 @@
     background-color: #ddd;
     margin: 20px 0;
 } 
+
+.unread {
+  background-color: #fef6e4;  
+  font-weight: 600;  
+}
+
+.unread .sender,
+.unread .subject {
+  font-weight: 700;
+}
