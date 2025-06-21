@@ -53,7 +53,7 @@ export default function SendMessage({ message }) {
         </div>
 
         <div className={styles.lastMessage}>
-            {message.description}
+            {message?.description}
         </div>
     </div>
     </>
