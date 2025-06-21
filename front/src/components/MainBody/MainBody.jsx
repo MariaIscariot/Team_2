@@ -8,7 +8,7 @@ export default function MainBody({ message }) {
   const [activeTab, setActiveTab] = useState('Main');
   const [activeAction, setActiveAction] = useState('Send message'); 
   const [sentMessages, setSentMessages] = useState([
-  { id: 1, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Привет! Нужно обсудить проект.', time: '17.06, Вт', seen: false },
+  { id: 1, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Привет! Нужно обсудить проект.Привет! Нужно обсудить проект.', time: '17.06, Вт', seen: false },
   { id: 2, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Привет! Конечно, что именно?', time: '17.06, Вт', seen: false },
   { id: 3, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'По поводу сроков сдачи.', time: '17.06, Вт', seen: true },
   { id: 4, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Я думаю, успеем к пятнице.', time: '17.06, Вт', seen: true },
@@ -34,7 +34,12 @@ const renderContent = () => {
   if (activeTab === 'Main') {
     switch (activeAction) {
       case 'Send message':
-        return <SendMessage message={message} />;
+        return( 
+          <>
+            <Rezume />
+            <SendMessage message={message} />
+          </>
+        );
       case 'History':
         return (
           <div className={styles.historySection}>
@@ -42,9 +47,7 @@ const renderContent = () => {
               <p>Nu există mesaje trimise încă.</p>
             ) : <History sentMessages={sentMessages} />}
           </div>
-        );
-      case 'Resume':
-        return <Rezume />;
+        ); 
       default:
         return null;
     }
@@ -64,21 +67,9 @@ const renderContent = () => {
   return (
     <div className={styles.mainBodyOutlook}>
       <aside className={styles.sidebar}>
-        <nav className={styles.mainNavbar}>
-          {['Main', 'HR', 'Instagram'].map((tab) => (
-            <button
-              key={tab}
-              className={`${styles.navTab} ${activeTab === tab ? styles.active : ''}`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </nav>
-
         {activeTab === 'Main' && (
           <div className={styles.actionButtons}>
-            {['Send message', 'History', 'Resume'].map((action) => (
+            {['Send message', 'History', 'Analyse Document'].map((action) => (
               <button
                 key={action}
                 className={`${styles.actionBtn} ${activeAction === action ? styles.active : ''}`}
