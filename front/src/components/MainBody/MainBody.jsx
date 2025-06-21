@@ -28,36 +28,24 @@ export default function MainBody({ message }) {
   const renderComposer = () => (
     <div className={styles.messageComposer}>
       <div className={styles.messageFields}>
-        <div className={styles.fieldRow}>
-          <label>To:</label>
-          <input
-            type="email"
-            value={toField}
-            onChange={(e) => setToField(e.target.value)}
-            placeholder="Introdu adresa de email"
-          />
-        </div>
-        <div className={styles.fieldRow}>
-          <label>CC:</label>
-          <input
-            type="email"
-            value={ccField}
-            onChange={(e) => setCcField(e.target.value)}
-            placeholder="Adrese CC (opțional)"
-          />
-        </div>
+        
+        
       </div>
       <div className={styles.messageBody}>
         <textarea
           value={messageText}
           onChange={(e) => setMessageText(e.target.value)}
-          placeholder="Scrie mesajul aici..."
           rows="10"
         />
       </div>
+      <div className={styles.messageActions}>
+      <button className={styles.editButton} onClick={handleSend}>
+        Edit
+      </button>
       <button className={styles.sendButton} onClick={handleSend}>
         Send
       </button>
+    </div>
     </div>
   );
 
