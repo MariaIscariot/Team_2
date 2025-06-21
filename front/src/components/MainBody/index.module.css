@@ -1,47 +1,47 @@
-.main-body-outlook {
-  width:70%;
+.mainBodyOutlook {
   height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f3f2f1;
+  width: 80%;
 }
 
 /* Navbar principal */
-.main-navbar {
+.mainNavbar {
   display: flex;
   background-color: #0078d4;
   height: 48px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.nav-tab {
+.navTab {
   flex: 1;
   border: none;
   background-color: transparent;
   color: white;
   font-size: 14px;
-  font-weight: 400; /* Normal weight, not bold */
+  font-weight: 400;
   cursor: pointer;
   transition: background-color 0.2s;
   border-right: 1px solid rgba(255,255,255,0.1);
 }
 
-.nav-tab:hover {
-  background-color: rgba(0,0,0,0.1); /* Darker on hover */
+.navTab:hover {
+  background-color: rgba(0,0,0,0.1);
 }
 
-.nav-tab.active {
-  background-color: rgba(0,0,0,0.15); /* Darker when active, not lighter */
-  font-weight: 400; /* Keep normal weight, not bold */
+.navTab.active {
+  background-color: rgba(0,0,0,0.15);
+  font-weight: 400;
 }
 
-.nav-tab:last-child {
+.navTab:last-child {
   border-right: none;
 }
 
 /* Butoane acțiuni */
-.action-buttons {
+.actionButtons {
   display: flex;
   background-color: #faf9f8;
   padding: 8px 16px;
@@ -49,7 +49,7 @@
   border-bottom: 1px solid #edebe9;
 }
 
-.action-btn {
+.actionBtn {
   padding: 8px 16px;
   border: 1px solid #d1d1d1;
   background-color: white;
@@ -60,38 +60,38 @@
   transition: all 0.2s;
 }
 
-.action-btn:hover {
+.actionBtn:hover {
   background-color: #f3f2f1;
   border-color: #c8c6c4;
 }
 
-.action-btn.active {
+.actionBtn.active {
   background-color: #0078d4;
   color: white;
   border-color: #0078d4;
 }
 
 /* Conținut principal */
-.main-content {
+.mainContent {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.content-header {
+.contentHeader {
   padding: 16px 24px;
   background-color: white;
   border-bottom: 1px solid #edebe9;
 }
 
-.content-header h2 {
+.contentHeader h2 {
   color: #323130;
   font-size: 20px;
   font-weight: 600;
 }
 
-.content-body {
+.contentBody {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
@@ -99,27 +99,29 @@
 }
 
 /* Composer de mesaje */
-.message-composer {
-  max-width: 800px;
+.messageComposer {
+  display: flex;
+  flex-direction: column;
 }
 
-.message-fields {
+
+.messageFields {
   margin-bottom: 16px;
 }
 
-.field-row {
+.fieldRow {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
 }
 
-.field-row label {
+.fieldRow label {
   width: 60px;
   font-weight: 500;
   color: #323130;
 }
 
-.field-row input {
+.fieldRow input {
   flex: 1;
   padding: 8px 12px;
   border: 1px solid #d1d1d1;
@@ -127,17 +129,17 @@
   font-size: 14px;
 }
 
-.field-row input:focus {
+.fieldRow input:focus {
   outline: none;
   border-color: #0078d4;
   box-shadow: 0 0 0 1px #0078d4;
 }
 
-.message-body {
+.messageBody {
   margin-bottom: 16px;
 }
 
-.message-body textarea {
+.messageBody textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #d1d1d1;
@@ -148,13 +150,13 @@
   min-height: 200px;
 }
 
-.message-body textarea:focus {
+.messageBody textarea:focus {
   outline: none;
   border-color: #0078d4;
   box-shadow: 0 0 0 1px #0078d4;
 }
 
-.send-button {
+.editButton {
   padding: 10px 24px;
   background-color: #0078d4;
   color: white;
@@ -164,21 +166,40 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
+  align-self: flex-start; 
 }
 
-.send-button:hover {
+
+.editButton:hover {
+  background-color: #106ebe;
+}
+
+.sendButton {
+  padding: 10px 24px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-end; 
+}
+
+.sendButton:hover {
   background-color: #106ebe;
 }
 
 /* Secțiunea istoric */
-.history-section h3,
-.resume-section h3 {
+.historySection h3,
+.resumeSection h3 {
   color: #323130;
   margin-bottom: 16px;
   font-size: 18px;
 }
 
-.message-item {
+.messageItem {
   background-color: #faf9f8;
   border: 1px solid #edebe9;
   border-radius: 4px;
@@ -186,7 +207,7 @@
   margin-bottom: 12px;
 }
 
-.message-header {
+.messageHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -200,7 +221,7 @@
   color: #8a8886;
 }
 
-.message-content {
+.messageContent {
   background-color: white;
   padding: 12px;
   border-radius: 4px;
@@ -210,28 +231,51 @@
 }
 
 /* Secțiunea rezumat */
-.resume-section p {
+.resumeSection p {
   margin-bottom: 8px;
   font-size: 14px;
   color: #605e5c;
 }
 
+/* View mesaj selectat */
+.body {
+  max-width: 800px;
+}
+
+.empty {
+  color: #605e5c;
+  font-size: 16px;
+  text-align: center;
+  padding: 40px;
+}
+
+.content {
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
-  .action-buttons {
+  .actionButtons {
     flex-wrap: wrap;
   }
-  
-  .field-row {
+
+  .fieldRow {
     flex-direction: column;
     align-items: flex-start;
   }
-  
-  .field-row label {
+
+  .fieldRow label {
     margin-bottom: 4px;
   }
-  
-  .field-row input {
+
+  .fieldRow input {
     width: 100%;
   }
+}
+
+.messageActions{
+    display: flex;
+    justify-content: space-between;
 }
