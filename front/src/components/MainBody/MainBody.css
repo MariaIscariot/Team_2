@@ -1,0 +1,236 @@
+.main-body-outlook {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f2f1;
+}
+
+/* Navbar principal */
+.main-navbar {
+  display: flex;
+  background-color: #0078d4;
+  height: 48px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-tab {
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 14px;
+  font-weight: 400; /* Normal weight, not bold */
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-tab:hover {
+  background-color: rgba(0,0,0,0.1); /* Darker on hover */
+}
+
+.nav-tab.active {
+  background-color: rgba(0,0,0,0.15); /* Darker when active, not lighter */
+  font-weight: 400; /* Keep normal weight, not bold */
+}
+
+.nav-tab:last-child {
+  border-right: none;
+}
+
+/* Butoane acțiuni */
+.action-buttons {
+  display: flex;
+  background-color: #faf9f8;
+  padding: 8px 16px;
+  gap: 8px;
+  border-bottom: 1px solid #edebe9;
+}
+
+.action-btn {
+  padding: 8px 16px;
+  border: 1px solid #d1d1d1;
+  background-color: white;
+  color: #323130;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #f3f2f1;
+  border-color: #c8c6c4;
+}
+
+.action-btn.active {
+  background-color: #0078d4;
+  color: white;
+  border-color: #0078d4;
+}
+
+/* Conținut principal */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content-header {
+  padding: 16px 24px;
+  background-color: white;
+  border-bottom: 1px solid #edebe9;
+}
+
+.content-header h2 {
+  color: #323130;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.content-body {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: white;
+}
+
+/* Composer de mesaje */
+.message-composer {
+  max-width: 800px;
+}
+
+.message-fields {
+  margin-bottom: 16px;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.field-row label {
+  width: 60px;
+  font-weight: 500;
+  color: #323130;
+}
+
+.field-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.field-row input:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 0 1px #0078d4;
+}
+
+.message-body {
+  margin-bottom: 16px;
+}
+
+.message-body textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 200px;
+}
+
+.message-body textarea:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 0 1px #0078d4;
+}
+
+.send-button {
+  padding: 10px 24px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.send-button:hover {
+  background-color: #106ebe;
+}
+
+/* Secțiunea istoric */
+.history-section h3,
+.resume-section h3 {
+  color: #323130;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.message-item {
+  background-color: #faf9f8;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #605e5c;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #8a8886;
+}
+
+.message-content {
+  background-color: white;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #edebe9;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Secțiunea rezumat */
+.resume-section p {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #605e5c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+  
+  .field-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .field-row label {
+    margin-bottom: 4px;
+  }
+  
+  .field-row input {
+    width: 100%;
+  }
+}
