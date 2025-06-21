@@ -8,7 +8,6 @@
   width: 70%;
 }
 
-/* Navbar principal */
 .mainNavbar {
   display: flex;
   background-color: #0078d4;
@@ -41,7 +40,6 @@
   border-right: none;
 }
 
-/* Butoane acțiuni */
 .actionButtons {
   display: flex;
   background-color: #faf9f8;
@@ -72,7 +70,6 @@
   border-color: #0078d4;
 }
 
-/* Conținut principal */
 .mainContent {
   flex: 1;
   display: flex;
@@ -99,7 +96,7 @@
   background-color: white;
 }
 
-/* Composer de mesaje */
+
 .messageComposer {
   display: flex;
   flex-direction: column;
@@ -279,4 +276,11 @@
 .messageActions{
     display: flex;
     justify-content: space-between;
+}
+
+.lastMessage{
+    margin-top: 50px;
+    border: #bfbbb7 1px solid;
+    border-radius: 5px;
+    padding: 2%;
 }
