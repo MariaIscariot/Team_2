@@ -1,0 +1,20 @@
+{
+    "filename": "uploads/meeting_notes.docx",
+    "type": "Unknown",
+    "summary": "Общий текстовый документ.",
+    "entities": [
+        {
+            "text": "PBL Team No",
+            "label": "ORG"
+        },
+        {
+            "text": "Subjects / Questions",
+            "label": "ORG"
+        },
+        {
+            "text": "Date",
+            "label": "ORG"
+        }
+    ],
+    "full_text": "Meeting Notes No. ______ \nPBL Team No. _______, academic group - FAF ______,\nSubjects / Questions to be considered by mentors\n…\nAdditional notes (optional)\n…\n __________________ \tDate of approval___________________"
+}
