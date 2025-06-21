@@ -3,25 +3,28 @@ import styles from './index.module.css';
 import MessageItem from './Subcomponents/MessageItem.jsx';
 
 const messages = [
-  { sender: 'FAF', subject: 'Summer FAF x Sigmoid', time: 'Чт, 14:49', seen: true, id: 1 },
-  { sender: 'Turcan Ana', subject: 'UTM Bioinformatics board', time: 'Чт, 13:55', seen: false, id: 2 },
-  { sender: 'UTM DTIC', subject: 'Autorizare SIMU Student', time: 'Ср, 17:06', seen: true, id: 3 },
-  { sender: 'Istrati Daniela', subject: 'Sesiunea de reexaminare', time: 'Ср, 11:34', seen: false,  id: 4 },
-  { sender: 'No-reply Moodle UTM', subject: 'Вы отправили свой отчет', time: '17.06, Вт', seen: true, id: 5 },
-  { sender: 'Bagrin Veronica', subject: 'Important', time: '17.06, Вт', seen: false, id: 6 },
-  { sender: 'FAF', subject: 'Summer FAF x Sigmoid', time: 'Чт, 14:49', seen: true, id: 7 },
-  { sender: 'Turcan Ana', subject: 'UTM Bioinformatics board', time: 'Чт, 13:55', seen: false, id: 8 },
-  { sender: 'UTM DTIC', subject: 'Autorizare SIMU Student', time: 'Ср, 17:06', seen: false, id: 9 },
-  { sender: 'Istrati Daniela', subject: 'Sesiunea de reexaminare', time: 'Ср, 11:34', seen: true, id: 10 },
-  { sender: 'No-reply Moodle UTM', subject: 'Вы отправили свой отчет', time: '17.06, Вт', seen: false, id: 11 },
-  { sender: 'Bagrin Veronica', subject: 'Important', time: '17.06, Вт', seen: true, id: 12 },
-  { sender: 'FAF', subject: 'Summer FAF x Sigmoid', time: 'Чт, 14:49', seen: false, id: 13 },
-  { sender: 'Turcan Ana', subject: 'UTM Bioinformatics board', time: 'Чт, 13:55', seen: true, id: 14 },
-  { sender: 'UTM DTIC', subject: 'Autorizare SIMU Student', time: 'Ср, 17:06', seen: false, id: 15 },
-  { sender: 'Istrati Daniela', subject: 'Sesiunea de reexaminare', time: 'Ср, 11:34', seen: true, id: 16 },
-  { sender: 'No-reply Moodle UTM', subject: 'Вы отправили свой отчет', time: '17.06, Вт', seen: true, id: 17 },
-  { sender: 'Bagrin Veronica', subject: 'Important', time: '17.06, Вт', seen: false, id: 18 },
+  { id: 1, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Привет! Нужно обсудить проект.', time: '17.06, Вт', seen: false },
+  { id: 2, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Привет! Конечно, что именно?', time: '17.06, Вт', seen: false },
+  { id: 3, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'По поводу сроков сдачи.', time: '17.06, Вт', seen: true },
+  { id: 4, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Я думаю, успеем к пятнице.', time: '17.06, Вт', seen: true },
+  { id: 5, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Хорошо, тогда начинаем завтра.', time: '18.06, Ср', seen: false },
+  { id: 6, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Окей, какие задачи на меня?', time: '18.06, Ср', seen: false },
+  { id: 7, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Сделай макет и опиши архитектуру.', time: '18.06, Ср', seen: true },
+  { id: 8, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Принято, к вечеру отправлю.', time: '18.06, Ср', seen: true },
+  { id: 9, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Спасибо, жду!', time: '18.06, Ср', seen: true },
+  { id: 10, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Отправил на почту, проверь.', time: '18.06, Ср', seen: false },
+  { id: 11, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Всё отлично, только пара правок.', time: '18.06, Ср', seen: false },
+  { id: 12, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Исправлю сейчас.', time: '18.06, Ср', seen: true },
+  { id: 13, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Спасибо большое!', time: '18.06, Ср', seen: true },
+  { id: 14, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Всегда рад помочь!', time: '18.06, Ср', seen: true },
+  { id: 15, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Давай ещё обсудим UI?', time: '19.06, Чт', seen: false },
+  { id: 16, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Да, у меня есть пара идей.', time: '19.06, Чт', seen: false },
+  { id: 17, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Круто, покажешь вечером?', time: '19.06, Чт', seen: true },
+  { id: 18, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Да, подготовлю всё.', time: '19.06, Чт', seen: true },
+  { id: 19, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Жду, удачи!', time: '19.06, Чт', seen: true },
+  { id: 20, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Спасибо!', time: '19.06, Чт', seen: true },
 ];
+
 
 export default function Subjects({ onSelectMessage }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
