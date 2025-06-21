@@ -47,22 +47,7 @@
   gap: 8px;
   border-bottom: 1px solid #edebe9;
 }
-
-.actionBtn {
-  padding: 8px 16px;
-  border: 1px solid #d1d1d1;
-  background-color: white;
-  color: #323130;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s;
-}
-
-.actionBtn:hover {
-  background-color: #f3f2f1;
-  border-color: #c8c6c4;
-}
+ 
 
 .actionBtn.active {
   background-color: #0078d4;
@@ -155,23 +140,6 @@
   box-shadow: 0 0 0 1px #0078d4;
 }
 
-.editButton {
-  padding: 10px 24px;
-  background-color: #0078d4;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  align-self: flex-start; 
-}
-
-
-.editButton:hover {
-  background-color: #106ebe;
-}
 
 .uploadButton {
   padding: 10px 24px;
@@ -190,23 +158,6 @@
 .uploadButton:hover {
   background-color: #106ebe;
 }
-
-.sendButton {
-  padding: 10px 24px;
-  background-color: #0078d4;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  align-self: flex-end; 
-}
-
-.sendButton:hover {
-  background-color: #106ebe;
-}
  
 .historySection h3,
 .resumeSection h3 {
@@ -214,14 +165,7 @@
   margin-bottom: 16px;
   font-size: 18px;
 }
-
-.messageItem {
-  background-color: #faf9f8;
-  border: 1px solid #edebe9;
-  border-radius: 4px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
+ 
 
 .messageHeader {
   display: flex;
@@ -329,4 +273,58 @@
     justify-content: space-between;
     align-items: center; 
     height: 100%; 
+}
+
+.messageItem {
+  background-color: #fff;
+  border: 1px solid #edebe9;
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.messageItem:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  transform: translateY(-2px) scale(1.01);
+}
+
+
+.actionBtn {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(90deg, #0078d4 0%, #00c6fb 100%);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,120,212,0.08);
+  transition: background 0.2s, transform 0.2s;
+}
+.actionBtn:hover {
+  background: linear-gradient(90deg, #005fa3 0%, #00a6d4 100%);
+  transform: scale(1.05);
+}
+.selected {
+  background: linear-gradient(90deg, #e3f2fd 0%, #f4f6fb 100%);
+  border-left: 4px solid #0078d4;
+  transition: background 0.2s, border 0.2s;
+}
+.editButton,
+.sendButton {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(90deg, #0078d4 0%, #00c6fb 100%);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,120,212,0.08);
+  transition: background 0.2s, transform 0.2s;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.editButton:hover,
+.sendButton:hover {
+  background: linear-gradient(90deg, #005fa3 0%, #00a6d4 100%);
+  transform: scale(1.05);
 }
