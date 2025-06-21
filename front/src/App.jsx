@@ -1,11 +1,15 @@
+import { useState } from 'react'
+import Subjects from './components/Subjects/Subjects'
+import MainBody from './components/MainBody/MainBody'
 import './App.css'
 
-function App() { 
+function App() {  
 
   return (
-    <>
-      <p>Some</p>
-    </>
+    <div className='app'>
+      <Subjects/>
+      <MainBody/>
+    </div>
   )
 }
 
