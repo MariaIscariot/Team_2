@@ -93,6 +93,7 @@
   flex: 1;
   padding: 24px;
   overflow-y: auto;
+  overflow-x: hidden;
   background-color: white;
 }
 
@@ -172,6 +173,24 @@
   background-color: #106ebe;
 }
 
+.uploadButton {
+  padding: 10px 24px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-start; 
+}
+
+
+.uploadButton:hover {
+  background-color: #106ebe;
+}
+
 .sendButton {
   padding: 10px 24px;
   background-color: #0078d4;
@@ -188,8 +207,7 @@
 .sendButton:hover {
   background-color: #106ebe;
 }
-
-/* Secțiunea istoric */
+ 
 .historySection h3,
 .resumeSection h3 {
   color: #323130;
@@ -227,15 +245,13 @@
   font-size: 14px;
   line-height: 1.4;
 }
-
-/* Secțiunea rezumat */
+ 
 .resumeSection p {
   margin-bottom: 8px;
   font-size: 14px;
   color: #605e5c;
 }
-
-/* View mesaj selectat */
+ 
 .body {
   max-width: 800px;
 }
@@ -252,8 +268,7 @@
   font-size: 15px;
   line-height: 1.6;
 }
-
-/* Responsive */
+ 
 @media (max-width: 768px) {
   .actionButtons {
     flex-wrap: wrap;
@@ -299,4 +314,19 @@
 }
 .messageList > div {
   margin-bottom: 8px;
+}
+
+
+.line{
+    width: 100%;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+} 
+
+.something{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; 
+    height: 100%; 
 }

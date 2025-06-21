@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './index.module.css';
 import History from './Subcomponents/History.jsx';
-import SendMessage from './Subcomponents/SendMessage.jsx'
+import SendMessage from './Subcomponents/SendMessage.jsx';
 import Rezume from './Subcomponents/Rezume.jsx';
 
-export default function MainBody({ message }) {
-  const [activeTab, setActiveTab] = useState('Main');
+export default function MainBody({ message }) { 
   const [activeAction, setActiveAction] = useState('Send message'); 
-  const [sentMessages, setSentMessages] = useState([
-  { id: 1, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Привет! Нужно обсудить проект.Привет! Нужно обсудить проект.', time: '17.06, Вт', seen: false },
+  const [sentMessages, setSentMessages] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/history')
+      .then((res) => res.json())
+      .then((data) => {
+        setSentMessages(data);
+      })
+      .catch((err) => {
+        setSentMessages([
+  { id: 1, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Привет! Нужно обсудить проект.', time: '17.06, Вт', seen: false },
   { id: 2, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Привет! Конечно, что именно?', time: '17.06, Вт', seen: false },
   { id: 3, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'По поводу сроков сдачи.', time: '17.06, Вт', seen: true },
   { id: 4, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Я думаю, успеем к пятнице.', time: '17.06, Вт', seen: true },
@@ -28,16 +36,19 @@ export default function MainBody({ message }) {
   { id: 18, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Да, подготовлю всё.', time: '19.06, Чт', seen: true },
   { id: 19, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Жду, удачи!', time: '19.06, Чт', seen: true },
   { id: 20, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Спасибо!', time: '19.06, Чт', seen: true },
-]);
+        ]);
+        console.error('Error:', err);
+      });
+  }, []);
 
-const renderContent = () => {
-  if (activeTab === 'Main') {
+  const renderContent = () => { 
     switch (activeAction) {
       case 'Send message':
-        return( 
+        return (
           <>
-            <Rezume />
-            <SendMessage message={message} />
+            <Rezume sentMessages={sentMessages} />
+            <div className={styles.line}></div>
+            <SendMessage message={message} sentMessages={sentMessages} setSentMessages={setSentMessages}/>
           </>
         );
       case 'History':
@@ -45,46 +56,33 @@ const renderContent = () => {
           <div className={styles.historySection}>
             {sentMessages.length === 0 ? (
               <p>Nu există mesaje trimise încă.</p>
-            ) : <History sentMessages={sentMessages} />}
+            ) : (
+              <History sentMessages={sentMessages} />
+            )}
           </div>
-        ); 
+        );
       default:
-        return null;
-    }
-  }
-  if (activeTab === 'HR' || activeTab === 'Instagram') {
-    return (
-      <div className={styles.hrInstagramInfo}>
-        <div style={{marginBottom: 12, fontWeight: 500}}>
-          {sentMessages.length} mesaje
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
+        return <></>;
+    }  
+  };
 
   return (
     <div className={styles.mainBodyOutlook}>
-      <aside className={styles.sidebar}>
-        {activeTab === 'Main' && (
-          <div className={styles.actionButtons}>
-            {['Send message', 'History', 'Analyse Document'].map((action) => (
-              <button
-                key={action}
-                className={`${styles.actionBtn} ${activeAction === action ? styles.active : ''}`}
-                onClick={() => setActiveAction(action)}
-              >
-                {action}
-              </button>
-            ))}
-          </div>
-        )}
+      <aside className={styles.sidebar}> 
+        <div className={styles.actionButtons}>
+          {['Send message', 'History', 'Analyse Document'].map((action) => (
+            <button
+              key={action}
+              className={`${styles.actionBtn} ${activeAction === action ? styles.active : ''}`}
+              onClick={() => setActiveAction(action)}
+            >  {action} </button>
+          ))}
+        </div> 
       </aside>
 
       <main className={styles.mainContent}>
         <div className={styles.contentHeader}>
-          <h2>{activeTab} - {activeAction}</h2>
+          <h2>{activeAction}</h2>
         </div>
         <div className={styles.contentBody}>
           {renderContent()}

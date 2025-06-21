@@ -4,8 +4,7 @@ import styles from '../index.module.css';
 export default function SendMessage({ message }) {
   const [toField, setToField] = useState('');
   const [ccField, setCcField] = useState('');
-  const [messageText, setMessageText] = useState('');
-  const [sentMessages, setSentMessages] = useState([]);
+  const [messageText, setMessageText] = useState('');  
 
   const handleSend = () => {
     if (toField && messageText) {
@@ -18,8 +17,7 @@ export default function SendMessage({ message }) {
       };
       setSentMessages((prev) => [...prev, newMessage]);
       setToField('');
-      setCcField('');
-      setMessageText('');
+      setCcField(''); 
     }
   };
  
@@ -27,9 +25,11 @@ export default function SendMessage({ message }) {
     <>
         {message && 
         <div className={styles.body}> 
-            <h2>{message.subject}</h2>
-            <p><strong>From:</strong> {message.sender}</p>
-            <p><strong>Time:</strong> {message.time}</p>
+            <div className={styles.something}>
+                <h2>{message.subject}</h2> 
+            </div>
+            <p><strong>From:</strong> {message.reciever}</p>
+            <p><strong>To:</strong> {message.sender}</p>
         </div>
         }
 
@@ -46,6 +46,9 @@ export default function SendMessage({ message }) {
                 <button className={styles.editButton} onClick={handleSend}>
                 Edit
                 </button>
+                <button className={styles.uploadButton} onClick={handleSend}>
+                Upload a file
+                </button>
                 <button className={styles.sendButton} onClick={handleSend}>
                 Send
                 </button>
@@ -53,7 +56,17 @@ export default function SendMessage({ message }) {
         </div>
 
         {message && 
+
         <div className={styles.lastMessage}>
+
+            <div className={styles.something}>
+                <h3>Last Message</h3> 
+                <p>{message.time}</p>
+            </div>
+            <p><strong>From:</strong> {message.sender}</p>
+            <p><strong>To:</strong> {message.reciever}</p>
+            <p><strong>Subject:</strong> {message.subject}</p>
+            <div className={styles.line}></div><br/>
             {message?.description}
         </div>
         }

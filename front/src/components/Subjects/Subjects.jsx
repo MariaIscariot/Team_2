@@ -2,9 +2,39 @@ import { useState, useEffect } from 'react';
 import styles from './index.module.css';
 import MessageItem from './Subcomponents/MessageItem.jsx';
 
-const messages = [
+
+export default function Subjects({ onSelectMessage }) {
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [messages, setMessages] = useState([]);
+
+    const handleClick = (msg, index) => {
+        setSelectedIndex(index);
+        onSelectMessage(msg);
+        
+        msg.seen = true;
+        // if (!msg.seen) {
+        //     fetch(`http://localhost:3000/api/messages/seen/${msg.id}`, { method: 'POST' })
+        //     .then(res => {
+        //         if (res.ok) {
+        //             msg.seen = true;
+        //         } else {
+        //             console.error('Error marking message as seen:', res.statusText);
+        //         }
+        //     }) 
+        // }
+    };
+
+    useEffect(() => {
+        fetch('http://localhost:3000/api/messages')  
+        .then(res => res.json())
+        .then(data => {
+            setMessages(data); 
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            setMessages([
   { id: 1, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Привет! Нужно обсудить проект.', time: '17.06, Вт', seen: false },
-  { id: 2, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Привет! Конечно, что именно?', time: '17.06, Вт', seen: false },
+  { id: 2, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Hoh', description: 'Привет! Конечно, что именно?', time: '17.06, Вт', seen: false },
   { id: 3, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'По поводу сроков сдачи.', time: '17.06, Вт', seen: true },
   { id: 4, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Я думаю, успеем к пятнице.', time: '17.06, Вт', seen: true },
   { id: 5, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Хорошо, тогда начинаем завтра.', time: '18.06, Ср', seen: false },
@@ -23,33 +53,9 @@ const messages = [
   { id: 18, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Да, подготовлю всё.', time: '19.06, Чт', seen: true },
   { id: 19, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Жду, удачи!', time: '19.06, Чт', seen: true },
   { id: 20, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Спасибо!', time: '19.06, Чт', seen: true },
-];
-
-
-export default function Subjects({ onSelectMessage }) {
-  const [selectedIndex, setSelectedIndex] = useState(null);
-
-  const handleClick = (msg, index) => {
-    setSelectedIndex(index);
-    onSelectMessage(msg);
-
-    if (!msg.seen) {
-        msg.seen = true;
-
-        // fetch(`http://localhost:3000/api/messages/${msg.id}/mark-seen`, {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        // })
-        // .then(res => {
-        //   if (res.ok) {
-        //     msg.seen = true;
-        //   } else {
-        //     console.error('Error marking message as seen:', res.statusText);
-        //   }
-        // })
-        // .catch(err => console.error('Fetch error:', err));
-    }
-  };
+            ]);
+        });
+    }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -72,16 +78,3 @@ export default function Subjects({ onSelectMessage }) {
   );
 }
 
-
-/* 
-const [messages, setMessages] = useState([]);
-
-useEffect(() => {
-  fetch('http://localhost:3000/api/messages')  
-    .then(res => res.json())
-    .then(data => {
-      setMessages(data); 
-    })
-    .catch(err => console.error('Error:', err));
-}, []);
-*/
