@@ -1,10 +1,11 @@
 .mainBodyOutlook {
+  margin-top: 1%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f3f2f1;
-  width: 80%;
+  width: 70%;
 }
 
 /* Navbar principal */
