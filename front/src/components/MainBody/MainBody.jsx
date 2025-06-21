@@ -47,17 +47,19 @@ export default function MainBody({ message }) {
           ))}
         </nav>
 
-        <div className={styles.actionButtons}>
-          {['Send message', 'History', 'Resume'].map((action) => (
-            <button
-              key={action}
-              className={`${styles.actionBtn} ${activeAction === action ? styles.active : ''}`}
-              onClick={() => setActiveAction(action)}
-            >
-              {action}
-            </button>
-          ))}
-        </div>
+        {activeTab === 'Main' && (
+          <div className={styles.actionButtons}>
+            {['Send message', 'History', 'Resume'].map((action) => (
+              <button
+                key={action}
+                className={`${styles.actionBtn} ${activeAction === action ? styles.active : ''}`}
+                onClick={() => setActiveAction(action)}
+              >
+                {action}
+              </button>
+            ))}
+          </div>
+        )}
       </aside>
 
       <main className={styles.mainContent}>
