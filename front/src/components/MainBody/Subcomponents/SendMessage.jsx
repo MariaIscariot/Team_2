@@ -52,9 +52,11 @@ export default function SendMessage({ message }) {
             </div>
         </div>
 
+        {message && 
         <div className={styles.lastMessage}>
             {message?.description}
         </div>
+        }
     </div>
     </>
   );
