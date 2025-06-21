@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './index.module.css';
+import History from './Subcomponents/History.jsx';
 
 export default function MainBody({ message }) {
   const [activeTab, setActiveTab] = useState('Main');
@@ -7,7 +8,7 @@ export default function MainBody({ message }) {
   const [toField, setToField] = useState('');
   const [ccField, setCcField] = useState('');
   const [messageText, setMessageText] = useState('');
-  const [sentMessages, setSentMessages] = useState([]);
+  const [sentMessages, setSentMessages] = useState(["Some"]);
 
   const handleSend = () => {
     if (toField && messageText) {
@@ -74,18 +75,7 @@ export default function MainBody({ message }) {
             <h3>Istoric Mesaje</h3>
             {sentMessages.length === 0 ? (
               <p>Nu există mesaje trimise încă.</p>
-            ) : (
-              sentMessages.map((msg) => (
-                <div key={msg.id} className={styles.messageItem}>
-                  <div className={styles.messageHeader}>
-                    <strong>To:</strong> {msg.to}
-                    {msg.cc && <span> | <strong>CC:</strong> {msg.cc}</span>}
-                    <span className={styles.timestamp}>{msg.timestamp}</span>
-                  </div>
-                  <div className={styles.messageContent}>{msg.text}</div>
-                </div>
-              ))
-            )}
+            ) : <History sentMessages={sentMessages} />}
           </div>
         );
 
