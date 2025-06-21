@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './MainBody.css';
+import styles from './index.module.css';
 
-const MainBody = () => {
+export default function MainBody({ message }) {
   const [activeTab, setActiveTab] = useState('Main');
   const [activeAction, setActiveAction] = useState('Send message');
   const [toField, setToField] = useState('');
@@ -16,7 +16,7 @@ const MainBody = () => {
         to: toField,
         cc: ccField,
         text: messageText,
-        timestamp: new Date().toLocaleString()
+        timestamp: new Date().toLocaleString(),
       };
       setSentMessages([...sentMessages, newMessage]);
       setToField('');
@@ -25,119 +25,120 @@ const MainBody = () => {
     }
   };
 
+  const renderComposer = () => (
+    <div className={styles.messageComposer}>
+      <div className={styles.messageFields}>
+        
+        
+      </div>
+      <div className={styles.messageBody}>
+        <textarea
+          value={messageText}
+          onChange={(e) => setMessageText(e.target.value)}
+          rows="10"
+        />
+      </div>
+      <div className={styles.messageActions}>
+      <button className={styles.editButton} onClick={handleSend}>
+        Edit
+      </button>
+      <button className={styles.sendButton} onClick={handleSend}>
+        Send
+      </button>
+    </div>
+    </div>
+  );
+
   const renderContent = () => {
+    if (message) {
+      return (
+        <div className={styles.body}>
+          <h2>{message.subject}</h2>
+          <p><strong>От:</strong> {message.sender}</p>
+          <p><strong>Время:</strong> {message.time}</p>
+          <p className={styles.content}>
+            Здесь будет текст письма или его можно загрузить дополнительно.
+          </p>
+          {renderComposer()}
+        </div>
+      );
+    }
+
     switch (activeAction) {
       case 'Send message':
-        return (
-          <div className="message-composer">
-            <div className="message-fields">
-              <div className="field-row">
-                <label>To:</label>
-                <input
-                  type="email"
-                  value={toField}
-                  onChange={(e) => setToField(e.target.value)}
-                  placeholder="Enter the email address"
-                />
-              </div>
-              <div className="field-row">
-                <label>CC:</label>
-                <input
-                  type="email"
-                  value={ccField}
-                  onChange={(e) => setCcField(e.target.value)}
-                  placeholder="CC addresses (optional)"
-                />
-              </div>
-            </div>
-            <div className="message-body">
-              <textarea
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-                placeholder="Write your message here..."
-                rows="10"
-              />
-            </div>
-            <button className="send-button" onClick={handleSend}>
-              Send
-            </button>
-          </div>
-        );
-      
+        return renderComposer();
+
       case 'History':
         return (
-          <div className="history-section">
-            <h3>Message history</h3>
+          <div className={styles.historySection}>
+            <h3>Istoric Mesaje</h3>
             {sentMessages.length === 0 ? (
-              <p>There are no messages sent yet.</p>
+              <p>Nu există mesaje trimise încă.</p>
             ) : (
-              sentMessages.map(message => (
-                <div key={message.id} className="message-item">
-                  <div className="message-header">
-                    <strong>To:</strong> {message.to}
-                    {message.cc && <span> | <strong>CC:</strong> {message.cc}</span>}
-                    <span className="timestamp">{message.timestamp}</span>
+              sentMessages.map((msg) => (
+                <div key={msg.id} className={styles.messageItem}>
+                  <div className={styles.messageHeader}>
+                    <strong>To:</strong> {msg.to}
+                    {msg.cc && <span> | <strong>CC:</strong> {msg.cc}</span>}
+                    <span className={styles.timestamp}>{msg.timestamp}</span>
                   </div>
-                  <div className="message-content">{message.text}</div>
+                  <div className={styles.messageContent}>{msg.text}</div>
                 </div>
               ))
             )}
           </div>
         );
-      
+
       case 'Resume':
         return (
-          <div className="resume-section">
-            <h3>Summary</h3>
-            <p>Total messages sent: {sentMessages.length}</p>
-            <p>Last activity: {sentMessages.length > 0 ? sentMessages[sentMessages.length - 1].timestamp : 'N/A'}</p>
+          <div className={styles.resumeSection}>
+            <h3>Rezumat</h3>
+            <p>Total mesaje trimise: {sentMessages.length}</p>
+            <p>Ultima activitate: {sentMessages.length > 0 ? sentMessages[sentMessages.length - 1].timestamp : 'N/A'}</p>
           </div>
         );
-      
+
       default:
-        return <div>Select an action</div>;
+        return <div className={styles.empty}>Selectează o acțiune</div>;
     }
   };
 
   return (
-    <div className="main-body-outlook">
-      {/* Navbar principal */}
-      <nav className="main-navbar">
-        {['Main', 'HR', 'Instagram'].map(tab => (
-          <button
-            key={tab}
-            className={`nav-tab ${activeTab === tab ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
-      </nav>
+    <div className={styles.mainBodyOutlook}>
+      <aside className={styles.sidebar}>
+        <nav className={styles.mainNavbar}>
+          {['Main', 'HR', 'Instagram'].map((tab) => (
+            <button
+              key={tab}
+              className={`${styles.navTab} ${activeTab === tab ? styles.active : ''}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </nav>
 
-      {/* Butoane acțiuni */}
-      <div className="action-buttons">
-        {['Send message', 'History', 'Resume'].map(action => (
-          <button
-            key={action}
-            className={`action-btn ${activeAction === action ? 'active' : ''}`}
-            onClick={() => setActiveAction(action)}
-          >
-            {action}
-          </button>
-        ))}
-      </div>
+        <div className={styles.actionButtons}>
+          {['Send message', 'History', 'Resume'].map((action) => (
+            <button
+              key={action}
+              className={`${styles.actionBtn} ${activeAction === action ? styles.active : ''}`}
+              onClick={() => setActiveAction(action)}
+            >
+              {action}
+            </button>
+          ))}
+        </div>
+      </aside>
 
-      {/* Conținut principal */}
-      <div className="main-content">
-        <div className="content-header">
+      <main className={styles.mainContent}>
+        <div className={styles.contentHeader}>
           <h2>{activeTab} - {activeAction}</h2>
         </div>
-        <div className="content-body">
+        <div className={styles.contentBody}>
           {renderContent()}
         </div>
-      </div>
+      </main>
     </div>
   );
-};
-
-export default MainBody;
+}
