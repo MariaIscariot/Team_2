@@ -30,27 +30,36 @@ export default function MainBody({ message }) {
   { id: 20, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Спасибо!', time: '19.06, Чт', seen: true },
 ]);
 
-  const renderContent = () => {
+const renderContent = () => {
+  if (activeTab === 'Main') {
     switch (activeAction) {
       case 'Send message':
-        return <SendMessage message={message}/>
+        return <SendMessage message={message} />;
       case 'History':
         return (
-          <div className={styles.historySection}> 
+          <div className={styles.historySection}>
             {sentMessages.length === 0 ? (
               <p>Nu există mesaje trimise încă.</p>
             ) : <History sentMessages={sentMessages} />}
           </div>
         );
       case 'Resume':
-        return (
-          <Rezume sentMessages={sentMessages}/>
-        );
-
+        return <Rezume />;
       default:
-        return <div className={styles.empty}>Selectează o acțiune</div>;
+        return null;
     }
-  };
+  }
+  if (activeTab === 'HR' || activeTab === 'Instagram') {
+    return (
+      <div className={styles.hrInstagramInfo}>
+        <div style={{marginBottom: 12, fontWeight: 500}}>
+          {sentMessages.length} mesaje
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
   return (
     <div className={styles.mainBodyOutlook}>
