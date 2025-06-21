@@ -40,7 +40,8 @@ def home():
             "/load-emails": "GET - Load emails from Gmail inbox",
             "/extract-pdf": "POST - Extract text from PDF using RapidAPI",
             "/summarize-conversation": "POST - Generate conversation summary",
-            "/generate-response": "POST - Generate response to messages"
+            "/generate-response": "POST - Generate response to messages",
+            "/get-subjects": "GET - Get only subject field from inbox messages"
         }
     })
 
@@ -189,6 +190,9 @@ def file_analysis_endpoint():
 @app.route('/load-emails', methods=['GET'])
 def load_emails_endpoint():
     """Load emails from Gmail inbox using hardcoded credentials"""
+    app_dir = os.path.dirname(os.path.abspath(__file__))
+    credentials_path = os.path.join(app_dir, 'credentials.json')
+    
     try:
         # Use hardcoded credentials
         data = {
@@ -197,19 +201,20 @@ def load_emails_endpoint():
             "attachments_folder": "attachments"
         }
         
-        # Save credentials to temporary file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        # Save credentials to a known file name in the same directory as the script
+        with open(credentials_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-            temp_file_path = f.name
         
-        # Run the imap.py script (from parent directory)
-        imap_script = os.path.join(PARENT_DIR, 'imap.py')
-        result = subprocess.run([sys.executable, imap_script], 
-                              capture_output=True, 
-                              text=True)
+        # Define the correct, absolute path to the imap.py script
+        imap_script = os.path.join(app_dir, 'imap.py')
         
-        # Clean up temporary file
-        os.unlink(temp_file_path)
+        # Run the imap.py script with its own directory as the working directory
+        result = subprocess.run(
+            [sys.executable, imap_script],
+            capture_output=True,
+            text=True,
+            cwd=app_dir  # Set the correct working directory
+        )
         
         if result.returncode == 0:
             return jsonify({
@@ -226,6 +231,10 @@ def load_emails_endpoint():
         
     except Exception as e:
         return jsonify({"error": str(e), "traceback": traceback.format_exc()}), 500
+    finally:
+        # Ensure the credentials file is always cleaned up
+        if os.path.exists(credentials_path):
+            os.remove(credentials_path)
 
 @app.route('/extract-pdf', methods=['POST'])
 def extract_pdf_endpoint():
@@ -246,7 +255,7 @@ def extract_pdf_endpoint():
         filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
         
-        # Run the resume_parsing.py script (from parent directory)
+        # Run the resume_parsing.py scnript (from parent directory)
         resume_parsing_script = os.path.join(PARENT_DIR, 'resume_parsing.py')
         result = subprocess.run([sys.executable, resume_parsing_script], 
                               capture_output=True, 
@@ -356,9 +365,9 @@ def generate_response_endpoint():
             json.dump(data, f, ensure_ascii=False, indent=2)
             temp_file_path = f.name
         
-        # Run the send.py script (from parent directory)
-        send_script = os.path.join(PARENT_DIR, 'send.py')
-        result = subprocess.run([sys.executable, send_script], 
+        # Run the send.py script (from backend directory)
+        send_script = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'send.py')
+        result = subprocess.run([sys.executable, send_script, temp_file_path],
                               capture_output=True, 
                               text=True)
         
@@ -386,6 +395,69 @@ def health_check():
         "status": "healthy",
         "message": "API is running"
     })
+
+@app.route('/get-subjects', methods=['GET'])
+def get_subjects_endpoint():
+    """Get only subject field from inbox messages"""
+    try:
+        # Path to the inbox messages JSON file
+        json_file_path = 'inbox_messages_with_attachments.json'
+        
+        # Check if file exists
+        if not os.path.exists(json_file_path):
+            return jsonify({
+                "error": "inbox_messages_with_attachments.json file not found"
+            }), 404
+        
+        # Read the JSON file
+        with open(json_file_path, 'r', encoding='utf-8') as f:
+            messages = json.load(f)
+        
+        # Extract and format the data to match frontend structure
+        formatted_messages = []
+        for message in messages:
+            # Extract sender name from "from" field
+            from_field = message.get("from", "")
+            sender = from_field.split('<')[0].strip() if '<' in from_field else from_field
+            
+            # Extract receiver name from "to" field
+            to_field = message.get("to", "")
+            receiver = to_field.split('<')[0].strip() if '<' in to_field else to_field
+            
+            # Format date
+            date_str = message.get("date", "")
+            # Simple date formatting - you might want to improve this
+            time = date_str.split(',')[0] if ',' in date_str else date_str[:10]
+            
+            formatted_messages.append({
+                "id": message.get("id", ""),
+                "sender": sender,
+                "to": message.get("to", ""),
+                "receiver": receiver,
+                "subject": message.get("subject", ""),
+                "description": message.get("body", ""),
+                "time": time,
+                "seen": False,  # Default to False, you can modify this logic as needed
+                "attachments": message.get("attachments", []),
+                "attachments_count": message.get("attachments_count", 0)
+            })
+        
+        return jsonify({
+            "message": "Messages retrieved successfully",
+            "count": len(formatted_messages),
+            "messages": formatted_messages
+        })
+        
+    except json.JSONDecodeError as e:
+        return jsonify({
+            "error": "Invalid JSON format in inbox_messages_with_attachments.json",
+            "details": str(e)
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000) 
