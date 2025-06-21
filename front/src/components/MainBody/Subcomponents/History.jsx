@@ -112,7 +112,7 @@ const messages = [
   },
 ];
 
-export default function History() {
+export default function History({sentMessages}) {
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   return (
