@@ -124,7 +124,7 @@
 }
 
 .messageBody textarea {
-  width: 100%;
+  width: 98%;
   padding: 12px;
   border: 1px solid #d1d1d1;
   border-radius: 4px;
@@ -166,6 +166,9 @@
   font-size: 18px;
 }
  
+.resumeSection h2{
+    margin-bottom: 16px;
+}
 
 .messageHeader {
   display: flex;
@@ -195,9 +198,17 @@
   font-size: 14px;
   color: #605e5c;
 }
- 
-.body {
-  max-width: 800px;
+
+.messageDetails{
+    display: flex;
+    gap: 50px;
+}
+
+.body { 
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
 }
 
 .empty {
@@ -233,8 +244,8 @@
 }
 
 .messageActions{
-    display: flex;
-    justify-content: space-between;
+    display: flex; 
+    gap: 50px;
 }
 
 .lastMessage{
@@ -308,9 +319,10 @@
   background: linear-gradient(90deg, #e3f2fd 0%, #f4f6fb 100%);
   border-left: 4px solid #0078d4;
   transition: background 0.2s, border 0.2s;
-}
-.editButton,
-.sendButton {
+} 
+
+.sendButton,
+.uploadButton {
   padding: 10px 20px;
   border-radius: 6px;
   border: none;
@@ -322,9 +334,9 @@
   font-size: 14px;
   cursor: pointer;
 }
-
-.editButton:hover,
-.sendButton:hover {
+ 
+.sendButton:hover,
+.uploadButton:hover {
   background: linear-gradient(90deg, #005fa3 0%, #00a6d4 100%);
   transform: scale(1.05);
 }

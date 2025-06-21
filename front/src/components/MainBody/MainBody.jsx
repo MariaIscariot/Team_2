@@ -55,7 +55,7 @@ export default function MainBody({ message }) {
         return (
           <div className={styles.historySection}>
             {sentMessages.length === 0 ? (
-              <p>Nu există mesaje trimise încă.</p>
+              <p>There are no messages in this conversation.</p>
             ) : (
               <History sentMessages={sentMessages} />
             )}
