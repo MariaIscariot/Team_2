@@ -4,6 +4,7 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 export default function SendMessage({ message }) {
   const [messageText, setMessageText] = useState('');
+  const [recipients, setRecipients] = useState([]);
   const [attachedFile, setAttachedFile] = useState(null);
   const [approved, setApproved] = useState(null);
   const fileInputRef = useRef(null);
@@ -108,6 +109,13 @@ export default function SendMessage({ message }) {
       });
   }
 
+  const handleInputChange = (e) => {
+    const input = e.target.value;
+    const users = input.split(',').map(u => u.trim()).filter(Boolean);
+    setRecipients(users);
+  };
+
+
   return (
     <>
       {message &&
@@ -154,13 +162,20 @@ export default function SendMessage({ message }) {
             <button className={styles.sendButton} onClick={handleReload} disabled={!message}>
               Reload messages
             </button>
+
+            
+            <div>
+              <strong>Recipients:</strong>
+            
             <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
+              type="text"
+              placeholder="Enter users separated by commas"
+              onChange={handleInputChange}
             />
           </div>
+          
+            </div>
+
         </div>
 
         {attachedFile && (

@@ -276,6 +276,8 @@
 .messageActions{
     display: flex;
     justify-content: space-between;
+    text-align: center;
+    align-items: center;
 }
 
 .lastMessage{
