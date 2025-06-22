@@ -7,16 +7,43 @@ export default function SendMessage({ message }) {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/getMessage')
-      .then((res) => res.text())
-      .then((data) => {
-        setMessageText(data);
-      })
-      .catch((err) => {
-        console.error('Error:', err);
-        setMessageText('No generated message available.');
-      });
-  }, []);
+    if (message) {
+        setMessageText('Generating response...');
+        const requestBody = {
+            id: message.id,
+            subject: message.subject,
+            from: message.sender,
+            body: message.description,
+        };
+
+        fetch('http://localhost:5000/generate-response', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                if (data.output) {
+                    setMessageText(data.output);
+                } else {
+                    setMessageText('Failed to generate response. The "output" key was not found in the response.');
+                }
+            })
+            .catch((err) => {
+                console.error('Error generating response:', err);
+                setMessageText(`Error generating response: ${err.message}`);
+            });
+    } else {
+      setMessageText('');
+    }
+  }, [message]);
 
   const handleSend = () => {
     if (!message || !messageText) return;
@@ -70,8 +97,8 @@ export default function SendMessage({ message }) {
             <h2>{message.subject}</h2>
           </div>
           <div className={styles.messageDetails}>
-            <p><strong>From:</strong> {message.reciever}</p>
-            <p><strong>To:</strong> {message.sender}</p>
+            <p><strong>From:</strong> {message.sender}</p>
+            <p><strong>To:</strong> {message.to}</p>
           </div>
         </div>
       }
@@ -114,7 +141,7 @@ export default function SendMessage({ message }) {
               <p>{message.time}</p>
             </div>
             <p><strong>From:</strong> {message.sender}</p>
-            <p><strong>To:</strong> {message.reciever}</p>
+            <p><strong>To:</strong> {message.to}</p>
             <p><strong>Subject:</strong> {message.subject}</p>
             <div className={styles.line}></div><br />
             {message?.description}

@@ -1,0 +1,231 @@
+{
+  "info": {
+    "name": "File Analysis API",
+    "description": "Collection for testing the File Analysis API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Home",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": [""]
+        },
+        "description": "Get API documentation and available endpoints"
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["health"]
+        },
+        "description": "Check if the API is running"
+      },
+      "response": []
+    },
+    {
+      "name": "Process File",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [],
+              "description": "Upload a PDF, DOCX, TXT, or XLSX file"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5000/process-file",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["process-file"]
+        },
+        "description": "Process and analyze files (PDF, DOCX, TXT, XLSX)"
+      },
+      "response": []
+    },
+    {
+      "name": "Analyze JSON",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filename\": \"test_document.pdf\",\n  \"type\": \"CV\",\n  \"summary\": \"Test document summary\",\n  \"entities\": [\n    {\n      \"text\": \"John Doe\",\n      \"label\": \"PERSON\"\n    },\n    {\n      \"text\": \"Software Engineer\",\n      \"label\": \"WORK_OF_ART\"\n    }\n  ],\n  \"full_text\": \"This is a test document content for analysis. John Doe is a Software Engineer with 5 years of experience in Python development.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/analyze-json",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["analyze-json"]
+        },
+        "description": "Analyze JSON data using Groq AI"
+      },
+      "response": []
+    },
+    {
+      "name": "File Analysis",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filename\": \"test_document.pdf\",\n  \"type\": \"CV\",\n  \"summary\": \"Test document summary\",\n  \"entities\": [\n    {\n      \"text\": \"John Doe\",\n      \"label\": \"PERSON\"\n    },\n    {\n      \"text\": \"Software Engineer\",\n      \"label\": \"WORK_OF_ART\"\n    }\n  ],\n  \"full_text\": \"This is a test document content for detailed analysis. John Doe is a Software Engineer with 5 years of experience in Python development.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/file-analysis",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["file-analysis"]
+        },
+        "description": "Detailed file analysis using Groq AI"
+      },
+      "response": []
+    },
+    {
+      "name": "Load Emails",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/load-emails",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["load-emails"]
+        },
+        "description": "Load emails from Gmail inbox using hardcoded credentials (test.server.composer@gmail.com)"
+      },
+      "response": []
+    },
+    {
+      "name": "Extract PDF",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [],
+              "description": "Upload a PDF file for text extraction"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:5000/extract-pdf",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["extract-pdf"]
+        },
+        "description": "Extract text from PDF using RapidAPI"
+      },
+      "response": []
+    },
+    {
+      "name": "Summarize Conversation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"11\",\n  \"folder\": \"INBOX\",\n  \"subject\": \"Re: Welcome message from Veltrix Foods\",\n  \"from\": \"Алина Конончук <akononciuc@gmail.com>\",\n  \"to\": \"Dimas Pro <test.server.composer@gmail.com>\",\n  \"date\": \"Sat, 21 Jun 2025 18:26:59 +0300\",\n  \"body\": \"Dear Dimas Pro,\\r\\n\\r\\nI think it's perfect!\\r\\nLet's schedule the meeting on wednesday 25.06.2025 at 4 pm.\\r\\n\\r\\nPlease let us know if this works for you.\\r\\n\\r\\nBest regards,\\r\\nMaria Iscariot\\r\\nProcurement Manager\\r\\nVeltrix Foods\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/summarize-conversation",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["summarize-conversation"]
+        },
+        "description": "Generate conversation summary using Groq AI"
+      },
+      "response": []
+    },
+    {
+      "name": "Generate Response",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"11\",\n  \"folder\": \"INBOX\",\n  \"subject\": \"Re: Welcome message from Veltrix Foods\",\n  \"from\": \"Алина Конончук <akononciuc@gmail.com>\",\n  \"to\": \"Dimas Pro <test.server.composer@gmail.com>\",\n  \"date\": \"Sat, 21 Jun 2025 18:26:59 +0300\",\n  \"body\": \"Dear Dimas Pro,\\r\\n\\r\\nI think it's perfect!\\r\\nLet's schedule the meeting on wednesday 25.06.2025 at 4 pm.\\r\\n\\r\\nPlease let us know if this works for you.\\r\\n\\r\\nBest regards,\\r\\nMaria Iscariot\\r\\nProcurement Manager\\r\\nVeltrix Foods\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/generate-response",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["generate-response"]
+        },
+        "description": "Generate response to messages using Groq AI"
+      },
+      "response": []
+    }
+  ]
+} 

@@ -9,35 +9,28 @@ export default function MainBody({ message }) {
   const [sentMessages, setSentMessages] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/history')
-      .then((res) => res.json())
+    console.log('Fetching data from backend...');
+    fetch('http://localhost:5000/get-subjects')
+      .then((res) => {
+        console.log('Response status:', res.status);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data) => {
-        setSentMessages(data);
+        console.log('Received data:', data);
+        if (data.messages && Array.isArray(data.messages)) {
+          setSentMessages(data.messages);
+          console.log('Messages set successfully:', data.messages.length, 'messages');
+        } else {
+          console.error('Invalid data structure:', data);
+          throw new Error('Invalid data structure received');
+        }
       })
       .catch((err) => {
-        setSentMessages([
-  { id: 1, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Привет! Нужно обсудить проект.', time: '17.06, Вт', seen: false },
-  { id: 2, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Привет! Конечно, что именно?', time: '17.06, Вт', seen: false },
-  { id: 3, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'По поводу сроков сдачи.', time: '17.06, Вт', seen: true },
-  { id: 4, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Я думаю, успеем к пятнице.', time: '17.06, Вт', seen: true },
-  { id: 5, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Хорошо, тогда начинаем завтра.', time: '18.06, Ср', seen: false },
-  { id: 6, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Окей, какие задачи на меня?', time: '18.06, Ср', seen: false },
-  { id: 7, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Сделай макет и опиши архитектуру.', time: '18.06, Ср', seen: true },
-  { id: 8, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Принято, к вечеру отправлю.', time: '18.06, Ср', seen: true },
-  { id: 9, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Спасибо, жду!', time: '18.06, Ср', seen: true },
-  { id: 10, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Отправил на почту, проверь.', time: '18.06, Ср', seen: false },
-  { id: 11, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Всё отлично, только пара правок.', time: '18.06, Ср', seen: false },
-  { id: 12, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Исправлю сейчас.', time: '18.06, Ср', seen: true },
-  { id: 13, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Спасибо большое!', time: '18.06, Ср', seen: true },
-  { id: 14, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Всегда рад помочь!', time: '18.06, Ср', seen: true },
-  { id: 15, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Давай ещё обсудим UI?', time: '19.06, Чт', seen: false },
-  { id: 16, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Да, у меня есть пара идей.', time: '19.06, Чт', seen: false },
-  { id: 17, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Круто, покажешь вечером?', time: '19.06, Чт', seen: true },
-  { id: 18, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Да, подготовлю всё.', time: '19.06, Чт', seen: true },
-  { id: 19, sender: 'Bagrin Veronica', reciever: 'DimaPro', subject: 'Important', description: 'Жду, удачи!', time: '19.06, Чт', seen: true },
-  { id: 20, sender: 'DimaPro', reciever: 'Bagrin Veronica', subject: 'Important', description: 'Спасибо!', time: '19.06, Чт', seen: true },
-        ]);
-        console.error('Error:', err);
+        console.error('Fetch error:', err);
+        setSentMessages([]);
       });
   }, []);
 
@@ -46,7 +39,7 @@ export default function MainBody({ message }) {
       case 'Send message':
         return (
           <>
-            <Rezume sentMessages={sentMessages} />
+            <Rezume sentMessages={sentMessages} message={message} />
             <div className={styles.line}></div>
             <SendMessage message={message} sentMessages={sentMessages} setSentMessages={setSentMessages}/>
           </>
