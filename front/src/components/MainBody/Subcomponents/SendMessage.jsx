@@ -145,7 +145,7 @@ export default function SendMessage({ message }) {
           </div>
 
           <div className={styles.messageActions}>
-            <button className={styles.uploadButton} onClick={handleUploadClick} disabled={!message}>
+            <button className={styles.sendButton} onClick={handleUploadClick} disabled={!message}>
               Upload a file
             </button>
             <button className={styles.sendButton} onClick={handleSend} disabled={!message}>
