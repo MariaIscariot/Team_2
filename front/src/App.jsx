@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="app">
       <Subjects onSelectMessage={setSelectedMessage} />
-      <MainBody message={selectedMessage} />
+      <MainBody message={selectedMessage} onMessageSelect={setSelectedMessage} />
     </div>
   );
 }

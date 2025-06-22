@@ -2,7 +2,7 @@ import { useState } from 'react';
 import MessageItem from '../../Subjects/Subcomponents/MessageItem.jsx';
 import styles from '../index.module.css';
 
-export default function History({ sentMessages }) {
+export default function History({ sentMessages, onMessageSelect, selectedMessageForSending }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [summaries, setSummaries] = useState({});
   const [loading, setLoading] = useState({});
@@ -74,6 +74,12 @@ export default function History({ sentMessages }) {
     } else {
       setSelectedIndex(index);
       const clickedMessage = sentMessages[index];
+      
+      // Notify parent component about the selected message
+      if (onMessageSelect) {
+        onMessageSelect(clickedMessage);
+      }
+      
       const baseSubject = getBaseSubject(clickedMessage.subject);
       if (!summaries[baseSubject] && !loading[baseSubject]) {
         fetchSummaryForConversation(clickedMessage);
@@ -84,11 +90,15 @@ export default function History({ sentMessages }) {
   return (
     <div className={styles.historySection}>
       <h3>Istoric Mesaje</h3>
+      <p style={{ fontSize: '14px', color: '#666', marginBottom: '16px' }}>
+        Click on a message to view its summary and select it for sending a reply.
+      </p>
       <div className={styles.messageList}>
         {sentMessages.map((msg, index) => {
           const baseSubject = getBaseSubject(msg.subject);
           const summary = summaries[baseSubject];
           const isLoading = loading[baseSubject];
+          const isSelectedForSending = selectedMessageForSending && selectedMessageForSending.id === msg.id;
 
           return (
             <div key={index}>
@@ -109,6 +119,22 @@ export default function History({ sentMessages }) {
                   {isLoading
                     ? 'Loading...'
                     : summary || 'Click to load summary.'}
+                  {isSelectedForSending && (
+                    <div style={{ marginTop: '8px', color: '#0078d4', fontWeight: 'bold' }}>
+                      ✓ Selected for sending reply
+                    </div>
+                  )}
+                </div>
+              )}
+              {isSelectedForSending && selectedIndex !== index && (
+                <div style={{ 
+                  marginLeft: '32px', 
+                  marginBottom: '8px', 
+                  color: '#0078d4', 
+                  fontSize: '12px',
+                  fontWeight: 'bold'
+                }}>
+                  ✓ Selected for sending reply
                 </div>
               )}
             </div>
