@@ -29,7 +29,13 @@ export default function Subjects({ onSelectMessage }) {
         .then(res => res.json())
         .then(data => {
             if (data.messages && Array.isArray(data.messages)) {
-                setMessages(data.messages); 
+                // Sort messages by ID in descending order
+                const sortedMessages = data.messages.sort((a, b) => {
+                    const idA = parseInt(a.id, 10);
+                    const idB = parseInt(b.id, 10);
+                    return idB - idA;
+                });
+                setMessages(sortedMessages); 
             } else {
                 console.error('Invalid data structure:', data);
                 setMessages([]);
