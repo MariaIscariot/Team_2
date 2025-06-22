@@ -39,7 +39,7 @@ export default function MainBody({ message }) {
       case 'Send message':
         return (
           <>
-            <Rezume sentMessages={sentMessages} />
+            <Rezume sentMessages={sentMessages} message={message} />
             <div className={styles.line}></div>
             <SendMessage message={message} sentMessages={sentMessages} setSentMessages={setSentMessages}/>
           </>
