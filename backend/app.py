@@ -35,6 +35,7 @@ def home():
         "message": "File Analysis API",
         "endpoints": {
             "/process-file": "POST - Process and analyze files (PDF, DOCX, TXT, XLSX)",
+            "/process-file-by-path": "POST - Process and analyze files by filepath (JSON)",
             "/analyze-json": "POST - Analyze JSON data using Groq AI",
             "/file-analysis": "POST - Detailed file analysis using Groq AI",
             "/load-emails": "GET - Load emails from Gmail inbox",
@@ -458,6 +459,65 @@ def get_subjects_endpoint():
             "error": str(e),
             "traceback": traceback.format_exc()
         }), 500
+
+@app.route('/process-file-by-path', methods=['POST'])
+def process_file_by_path_endpoint():
+    """Process and analyze files by filepath (PDF, DOCX, TXT, XLSX)"""
+    try:
+        # Check Content-Type header
+        if not request.is_json:
+            return jsonify({
+                "error": "Content-Type must be application/json",
+                "message": "Please set the Content-Type header to 'application/json'"
+            }), 415
+        
+        data = request.get_json()
+        
+        if not data or 'filepath' not in data:
+            return jsonify({"error": "No filepath provided in JSON data"}), 400
+        
+        filepath = data['filepath']
+        
+        # Check if file exists
+        if not os.path.exists(filepath):
+            return jsonify({"error": f"File not found: {filepath}"}), 404
+        
+        # Check if file type is allowed
+        filename = os.path.basename(filepath)
+        if not allowed_file(filename):
+            return jsonify({"error": "File type not allowed"}), 400
+        
+        # Run the main.py script with the file path (from parent directory)
+        main_script = os.path.join(PARENT_DIR, 'main.py')
+        result = subprocess.run([sys.executable, main_script], 
+                              input=filepath + '\n', 
+                              text=True, 
+                              capture_output=True)
+        
+        if result.returncode == 0:
+            # Read the results.json file (from parent directory)
+            results_file = os.path.join(PARENT_DIR, 'results.json')
+            try:
+                with open(results_file, 'r', encoding='utf-8') as f:
+                    results = json.load(f)
+                return jsonify({
+                    "results": results,
+                    "output": result.stdout,
+                    "message": "File processed successfully"
+                })
+            except FileNotFoundError:
+                return jsonify({
+                    "output": result.stdout,
+                    "message": "File processed but results.json not found"
+                })
+        else:
+            return jsonify({
+                "error": "Failed to process file",
+                "stderr": result.stderr
+            }), 500
+        
+    except Exception as e:
+        return jsonify({"error": str(e), "traceback": traceback.format_exc()}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000) 

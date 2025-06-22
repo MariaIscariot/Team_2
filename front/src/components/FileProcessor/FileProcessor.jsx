@@ -1,116 +1,148 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import MessageItem from '../Subjects/Subcomponents/MessageItem.jsx';
 import styles from './index.module.css';
 
 const FileProcessor = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [processing, setProcessing] = useState(false);
-  const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState('');
-  const [analysisData, setAnalysisData] = useState(null);
-  const [finalAnalysis, setFinalAnalysis] = useState(null);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setAnalysisResult(null);
-      setError('');
-      setFinalAnalysis(null);
-      handleFileUpload(file);
-    }
-  };
+  useEffect(() => {
+    fetchMessages();
+  }, []);
 
-  const handleFileUpload = async (file) => {
-    if (!file) {
-      setError('Please select a file first.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    setProcessing(true);
-    setError('');
-
+  const fetchMessages = async () => {
     try {
-      const response = await fetch('http://localhost:5000/process-file', {
-        method: 'POST',
-        body: formData,
-      });
-
+      const response = await fetch('http://localhost:5000/get-subjects');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
-      setAnalysisResult(`File processed successfully. Type: ${data.type}, Summary: ${data.summary}`);
-      setAnalysisData(data);
-    } catch (e) {
-      console.error('Error processing file:', e);
-      setError('Error processing file. Please check the console for details.');
+      
+      // Filter messages that have attachments
+      const messagesWithAttachments = data.messages.filter(
+        (msg) => msg.attachments && msg.attachments.length > 0
+      );
+      
+      setMessages(messagesWithAttachments);
+    } catch (err) {
+      console.error('Error fetching messages:', err);
+      setError('Error fetching messages. Please check the console for details.');
+    }
+  };
+
+  const handleItemClick = async (index) => {
+    if (selectedIndex === index) {
+      setSelectedIndex(null);
       setAnalysisResult(null);
+    } else {
+      setSelectedIndex(index);
+      const clickedMessage = messages[index];
+      
+      // Process the first attachment
+      if (clickedMessage.attachments && clickedMessage.attachments.length > 0) {
+        await processAttachment(clickedMessage.attachments[0]);
+      }
+    }
+  };
+
+  const processAttachment = async (attachment) => {
+    setProcessing(true);
+    setError('');
+    setAnalysisResult(null);
+
+    try {
+      // Step 1: Process the file by path
+      const processRequestBody = {
+        filepath: attachment.filepath
+      };
+
+      const processResponse = await fetch('http://localhost:5000/process-file-by-path', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(processRequestBody),
+      });
+
+      if (!processResponse.ok) {
+        throw new Error(`HTTP error! status: ${processResponse.status}`);
+      }
+
+      const processData = await processResponse.json();
+      
+      // Step 2: Analyze the processed data
+      const analyzeResponse = await fetch('http://localhost:5000/analyze-json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(processData.results || processData),
+      });
+
+      if (!analyzeResponse.ok) {
+        throw new Error(`HTTP error! status: ${analyzeResponse.status}`);
+      }
+
+      const analyzeData = await analyzeResponse.json();
+      setAnalysisResult(analyzeData);
+    } catch (e) {
+      console.error('Error processing attachment:', e);
+      setError('Error processing attachment. Please check the console for details.');
     } finally {
       setProcessing(false);
     }
   };
 
-  const handleAnalyze = async () => {
-    if (!analysisData) {
-      setError('No analysis data available. Please process a file first.');
-      return;
-    }
-
-    setAnalyzing(true);
-    setError('');
-    setFinalAnalysis(null);
-
-    try {
-      const response = await fetch('http://localhost:5000/analyze-json', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(analysisData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const result = await response.json();
-      setFinalAnalysis(result);
-
-    } catch (e) {
-      console.error('Error analyzing data:', e);
-      setError('Error analyzing data. Please check the console for details.');
-    } finally {
-      setAnalyzing(false);
-    }
-  };
-
   return (
     <div className={styles.fileProcessor}>
-      <h2>File Analysis</h2>
-      <div className={styles.controls}>
-        <label htmlFor="file-upload" className={styles.customFileUpload}>
-          Choose File
-        </label>
-        <input id="file-upload" type="file" onChange={handleFileChange} style={{ display: 'none' }} />
-        {selectedFile && <span className={styles.fileName}>{selectedFile.name}</span>}
-        <button onClick={handleAnalyze} disabled={!analysisData || analyzing}>
-          {analyzing ? 'Analyzing...' : 'Analyze'}
-        </button>
-      </div>
-      {processing && <p>Processing file...</p>}
+      <h2>Files with Attachments</h2>
       {error && <p className={styles.error}>{error}</p>}
-      {analysisResult && <p className={styles.result}>{analysisResult}</p>}
-      {finalAnalysis && (
-        <div className={styles.analysisOutput}>
-          <h3>Analysis Result</h3>
-          <pre>{finalAnalysis.output}</pre>
-        </div>
-      )}
+      
+      <div className={styles.messageList}>
+        {messages.length === 0 ? (
+          <p>No messages with attachments found.</p>
+        ) : (
+          messages.map((msg, index) => (
+            <div key={index}>
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={() => handleItemClick(index)}
+              >
+                <MessageItem
+                  sender={msg.sender}
+                  subject={msg.subject}
+                  time={msg.time}
+                  selected={selectedIndex === index}
+                />
+              </div>
+              {selectedIndex === index && (
+                <div className={styles.messageDescription}>
+                  <strong>Attachments:</strong> {msg.attachments_count} file(s)
+                  {msg.attachments && msg.attachments.map((attachment, idx) => (
+                    <div key={idx} className={styles.attachmentInfo}>
+                      📎 {attachment.filename} ({attachment.content_type})
+                    </div>
+                  ))}
+                  {processing && <p>Processing attachment...</p>}
+                  {analysisResult && (
+                    <div className={styles.analysisOutput}>
+                      <h3>Analysis Result</h3>
+                      {analysisResult.output ? (
+                        <pre>{analysisResult.output}</pre>
+                      ) : (
+                        <pre>{JSON.stringify(analysisResult, null, 2)}</pre>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };
