@@ -59,7 +59,7 @@ export default function SendMessage({ message }) {
       formData.append('file', attachedFile);
     }
 
-    fetch('http://localhost:3000/api/send', {
+    fetch('http://localhost:5000/api/send', {
       method: 'POST',
       body: formData,
     })
@@ -88,6 +88,23 @@ export default function SendMessage({ message }) {
       setAttachedFile(e.target.files[0]);
     }
   };
+
+  function handleReload(){
+
+    console.log("LEt ger mails!");
+    
+    fetch('http://localhost:5000/load-emails')
+      .then((res) => {
+        if (!res.ok) throw new Error('Error');
+        return res.json();
+      })
+      .then((data) => {
+        console.log('Sent:', data); 
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+  }
 
   return (
     <>
@@ -118,6 +135,9 @@ export default function SendMessage({ message }) {
             </button>
             <button className={styles.sendButton} onClick={handleSend} disabled={!message}>
               Send
+            </button>
+            <button className={styles.sendButton} onClick={handleReload} disabled={!message}>
+              Reload messages
             </button>
             <input
               type="file"
