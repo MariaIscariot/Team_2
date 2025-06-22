@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MessageItem from '../Subjects/Subcomponents/MessageItem.jsx';
 import styles from './index.module.css';
+import AnalysisResultDisplay from './AnalysisResultDisplay.jsx';
 
 const FileProcessor = () => {
   const [messages, setMessages] = useState([]);
@@ -131,12 +132,9 @@ const FileProcessor = () => {
                   {processing && <p>Processing attachment...</p>}
                   {analysisResult && (
                     <div className={styles.analysisOutput}>
-                      <h3>Analysis Result</h3>
-                      {analysisResult.output ? (
-                        <pre>{analysisResult.output}</pre>
-                      ) : (
-                        <pre>{JSON.stringify(analysisResult, null, 2)}</pre>
-                      )}
+                      <AnalysisResultDisplay
+                        analysisText={analysisResult.output}
+                      />
                     </div>
                   )}
                 </div>
