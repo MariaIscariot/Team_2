@@ -68,7 +68,8 @@ const FileProcessor = () => {
       });
 
       if (!processResponse.ok) {
-        throw new Error(`HTTP error! status: ${processResponse.status}`);
+        const errorData = await processResponse.json().catch(() => ({}));
+        throw new Error(`HTTP error! status: ${processResponse.status}, message: ${errorData.error || 'Unknown error'}`);
       }
 
       const processData = await processResponse.json();
@@ -83,14 +84,15 @@ const FileProcessor = () => {
       });
 
       if (!analyzeResponse.ok) {
-        throw new Error(`HTTP error! status: ${analyzeResponse.status}`);
+        const errorData = await analyzeResponse.json().catch(() => ({}));
+        throw new Error(`HTTP error! status: ${analyzeResponse.status}, message: ${errorData.error || 'Unknown error'}`);
       }
 
       const analyzeData = await analyzeResponse.json();
       setAnalysisResult(analyzeData);
     } catch (e) {
       console.error('Error processing attachment:', e);
-      setError('Error processing attachment. Please check the console for details.');
+      setError(`Error processing attachment: ${e.message}`);
     } finally {
       setProcessing(false);
     }

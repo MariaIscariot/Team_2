@@ -1,0 +1,4 @@
+pandas
+PyMuPDF
+python-docx
+spacy 
