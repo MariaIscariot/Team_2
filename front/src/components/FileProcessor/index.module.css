@@ -1,0 +1,96 @@
+.fileProcessor {
+  padding: 20px;
+  background-color: white;
+  border-radius: 0;
+  margin-bottom: 20px;
+}
+
+.fileProcessor h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #323130;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.customFileUpload {
+  padding: 10px 24px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.customFileUpload:hover {
+  background-color: #106ebe;
+}
+
+.fileName {
+  font-style: italic;
+  color: #555;
+}
+
+.fileProcessor button {
+  padding: 10px 24px;
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.fileProcessor button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.fileProcessor button:hover:not(:disabled) {
+  background-color: #106ebe;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.result {
+  color: #605e5c;
+  font-size: 14px;
+}
+
+.analysisOutput {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #edebe9;
+  border-radius: 4px;
+  background-color: #faf9f8;
+}
+
+.analysisOutput h3 {
+  margin-top: 0;
+  color: #323130;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.analysisOutput pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  font-size: 14px;
+  color: #323130;
+  line-height: 1.5;
+} 
