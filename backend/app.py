@@ -116,7 +116,7 @@ def analyze_json_endpoint():
             return jsonify({"error": "No JSON data provided"}), 400
         
         # Save JSON data to temporary file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
             temp_file_path = f.name
         
@@ -160,7 +160,7 @@ def file_analysis_endpoint():
             return jsonify({"error": "No JSON data provided"}), 400
         
         # Save JSON data to temporary file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
             temp_file_path = f.name
         
@@ -306,7 +306,7 @@ def summarize_conversation_endpoint():
             return jsonify({"error": "No conversation data provided"}), 400
         
         # Save data to temporary file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
             temp_file_path = f.name
         
@@ -361,7 +361,7 @@ def generate_response_endpoint():
             return jsonify({"error": "No message data provided"}), 400
         
         # Save data to temporary file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
             temp_file_path = f.name
         
