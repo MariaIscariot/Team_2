@@ -1,20 +1,556 @@
 {
-    "filename": "uploads/meeting_notes.docx",
+    "filename": "C:\\Users\\Precision 5540\\Desktop\\Team 2\\Team_2\\backend\\attachments/1 июня_fe55cec7-f0bd-4f3c-a081-0720ccd36e02_1.docx",
     "type": "Unknown",
     "summary": "Общий текстовый документ.",
     "entities": [
         {
-            "text": "PBL Team No",
+            "text": "1",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "КОНЦЕРТА",
             "label": "ORG"
         },
         {
-            "text": "Subjects / Questions",
+            "text": "& Studio de dansuri",
             "label": "ORG"
         },
         {
-            "text": "Date",
+            "text": "14:30",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Studio de dansuri",
             "label": "ORG"
+        },
+        {
+            "text": "Doamnelor și",
+            "label": "PERSON"
+        },
+        {
+            "text": "Studioul de dansuri",
+            "label": "ORG"
+        },
+        {
+            "text": "Alcor",
+            "label": "ORG"
+        },
+        {
+            "text": "un",
+            "label": "ORG"
+        },
+        {
+            "text": "dar rafinat",
+            "label": "GPE"
+        },
+        {
+            "text": "inspirat de splendoarea",
+            "label": "ORG"
+        },
+        {
+            "text": "și seratelor",
+            "label": "PERSON"
+        },
+        {
+            "text": "balurile mari",
+            "label": "PERSON"
+        },
+        {
+            "text": "însă",
+            "label": "GPE"
+        },
+        {
+            "text": "dans",
+            "label": "NORP"
+        },
+        {
+            "text": "rafinamentului și",
+            "label": "PERSON"
+        },
+        {
+            "text": "timpuri",
+            "label": "GPE"
+        },
+        {
+            "text": "ci și un",
+            "label": "PERSON"
+        },
+        {
+            "text": "un",
+            "label": "ORG"
+        },
+        {
+            "text": "Алькор",
+            "label": "WORK_OF_ART"
+        },
+        {
+            "text": "Как",
+            "label": "PERSON"
+        },
+        {
+            "text": "великие",
+            "label": "PERSON"
+        },
+        {
+            "text": "величавым полонезом",
+            "label": "PERSON"
+        },
+        {
+            "text": "изящества и легкости",
+            "label": "PERSON"
+        },
+        {
+            "text": "времён танец служил",
+            "label": "PERSON"
+        },
+        {
+            "text": "могли впервые",
+            "label": "ORG"
+        },
+        {
+            "text": "этого предлога",
+            "label": "PERSON"
+        },
+        {
+            "text": "Таким",
+            "label": "GPE"
+        },
+        {
+            "text": "танец становился",
+            "label": "PERSON"
+        },
+        {
+            "text": "открывавшим двери",
+            "label": "PERSON"
+        },
+        {
+            "text": "1579",
+            "label": "DATE"
+        },
+        {
+            "text": "Anglia",
+            "label": "GPE"
+        },
+        {
+            "text": "secolului 16 - începutul secolului",
+            "label": "PERSON"
+        },
+        {
+            "text": "17",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Franța",
+            "label": "PRODUCT"
+        },
+        {
+            "text": "un",
+            "label": "ORG"
+        },
+        {
+            "text": "dans de sală",
+            "label": "ORG"
+        },
+        {
+            "text": "Europa",
+            "label": "LOC"
+        },
+        {
+            "text": "19",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "figuri mari",
+            "label": "PERSON"
+        },
+        {
+            "text": "2/",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "3/",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "XIX",
+            "label": "ORG"
+        },
+        {
+            "text": "Одним",
+            "label": "ORG"
+        },
+        {
+            "text": "Евгений Михайлович Иванов",
+            "label": "ORG"
+        },
+        {
+            "text": "1900",
+            "label": "DATE"
+        },
+        {
+            "text": "описаний танцев",
+            "label": "PERSON"
+        },
+        {
+            "text": "очень мало",
+            "label": "PERSON"
+        },
+        {
+            "text": "первых изданий его нотных",
+            "label": "PERSON"
+        },
+        {
+            "text": "театров",
+            "label": "NORP"
+        },
+        {
+            "text": "Также",
+            "label": "GPE"
+        },
+        {
+            "text": "Благородном",
+            "label": "PRODUCT"
+        },
+        {
+            "text": "Охотничьем",
+            "label": "PERSON"
+        },
+        {
+            "text": "простотой",
+            "label": "PERSON"
+        },
+        {
+            "text": "Благодаря",
+            "label": "ORG"
+        },
+        {
+            "text": "научить и вас",
+            "label": "PERSON"
+        },
+        {
+            "text": "Концерта",
+            "label": "PERSON"
+        },
+        {
+            "text": "только танцевали",
+            "label": "ORG"
+        },
+        {
+            "text": "1",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "MAGDALENA",
+            "label": "ORG"
+        },
+        {
+            "text": "10",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Școala de Muzică",
+            "label": "ORG"
+        },
+        {
+            "text": "Grabarovschaia Nadejda E. Poplianaia",
+            "label": "PERSON"
+        },
+        {
+            "text": "Спыну Магдалина",
+            "label": "PERSON"
+        },
+        {
+            "text": "10 лет",
+            "label": "MONEY"
+        },
+        {
+            "text": "2",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "BIVOL  DARIA",
+            "label": "PERSON"
+        },
+        {
+            "text": "11",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Școala de Muzca",
+            "label": "PERSON"
+        },
+        {
+            "text": "Maria Bieșu",
+            "label": "PERSON"
+        },
+        {
+            "text": "Natalia Gavrilița",
+            "label": "ORG"
+        },
+        {
+            "text": "Marina Mamaliga",
+            "label": "LOC"
+        },
+        {
+            "text": "3",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "COCARCEA",
+            "label": "ORG"
+        },
+        {
+            "text": "10",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Școala de Muzică",
+            "label": "ORG"
+        },
+        {
+            "text": "Bolgari Stella                          HANGU-cîntec",
+            "label": "PERSON"
+        },
+        {
+            "text": "Кокарча Иван",
+            "label": "PERSON"
+        },
+        {
+            "text": "10 лет",
+            "label": "DATE"
+        },
+        {
+            "text": "4",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "PRUTEANU",
+            "label": "ORG"
+        },
+        {
+            "text": "VARVARA",
+            "label": "ORG"
+        },
+        {
+            "text": "10",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Școala de Muzică",
+            "label": "ORG"
+        },
+        {
+            "text": "Grabarovschaia Nadejda",
+            "label": "PERSON"
+        },
+        {
+            "text": "Timur Maksimov",
+            "label": "PERSON"
+        },
+        {
+            "text": "Прутяну Варвара",
+            "label": "ORG"
+        },
+        {
+            "text": "5",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "DANIIL",
+            "label": "ORG"
+        },
+        {
+            "text": "11",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Școala de Muzică",
+            "label": "ORG"
+        },
+        {
+            "text": "Романс» \n 6",
+            "label": "WORK_OF_ART"
+        },
+        {
+            "text": "CUBIAC",
+            "label": "ORG"
+        },
+        {
+            "text": "BOGDAN",
+            "label": "ORG"
+        },
+        {
+            "text": "12",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Școala de Arte",
+            "label": "ORG"
+        },
+        {
+            "text": "V. Poleacov",
+            "label": "PERSON"
+        },
+        {
+            "text": "Dragoș Natalia -                                 M. Glinca «Melodiceschuu",
+            "label": "PERSON"
+        },
+        {
+            "text": "7",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "CIORNÎI",
+            "label": "ORG"
+        },
+        {
+            "text": "NICOLAI",
+            "label": "ORG"
+        },
+        {
+            "text": "11",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Școala de Muzică",
+            "label": "ORG"
+        },
+        {
+            "text": "Bolgari Stella",
+            "label": "PERSON"
+        },
+        {
+            "text": "Черный Николай",
+            "label": "GPE"
+        },
+        {
+            "text": "8",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "ANSAMBLU de FLUERIȘTI «STEJĂREII»",
+            "label": "ORG"
+        },
+        {
+            "text": "8",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "Liceul Teoretic B. P. Hașdău",
+            "label": "PERSON"
+        },
+        {
+            "text": "Danu Dumitru",
+            "label": "PERSON"
+        },
+        {
+            "text": "Maestru de concert",
+            "label": "PERSON"
+        },
+        {
+            "text": "Danu Tatiana",
+            "label": "ORG"
+        },
+        {
+            "text": "9.",
+            "label": "QUANTITY"
+        },
+        {
+            "text": "La Chapelloise",
+            "label": "WORK_OF_ART"
+        },
+        {
+            "text": "Chapelle",
+            "label": "GPE"
+        },
+        {
+            "text": "dans",
+            "label": "NORP"
+        },
+        {
+            "text": "dată",
+            "label": "PERSON"
+        },
+        {
+            "text": "1970",
+            "label": "DATE"
+        },
+        {
+            "text": "Europa",
+            "label": "LOC"
+        },
+        {
+            "text": "dincolo de granițele",
+            "label": "PERSON"
+        },
+        {
+            "text": "Franței",
+            "label": "PERSON"
+        },
+        {
+            "text": "poartă alte denumiri",
+            "label": "PERSON"
+        },
+        {
+            "text": "Джазовые",
+            "label": "GPE"
+        },
+        {
+            "text": "название этим двадцати годам",
+            "label": "PERSON"
+        },
+        {
+            "text": "Эпоха",
+            "label": "PRODUCT"
+        },
+        {
+            "text": "он",
+            "label": "ORG"
+        },
+        {
+            "text": "смысле первые свинговые",
+            "label": "PERSON"
+        },
+        {
+            "text": "шаги появились ещё в",
+            "label": "PERSON"
+        },
+        {
+            "text": "1920-х",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "предшествовавших",
+            "label": "PERSON"
+        },
+        {
+            "text": "афроамериканские переселенцы",
+            "label": "PERSON"
+        },
+        {
+            "text": "XIX",
+            "label": "PERSON"
+        },
+        {
+            "text": "3/",
+            "label": "CARDINAL"
+        },
+        {
+            "text": "FINLANDA\n  Полька",
+            "label": "PERSON"
+        },
+        {
+            "text": "Богемии",
+            "label": "ORG"
+        },
+        {
+            "text": "Миру",
+            "label": "PERSON"
+        },
+        {
+            "text": "видов национальных полек",
+            "label": "PERSON"
         }
     ],
-    "full_text": "Meeting Notes No. ______ \nPBL Team No. _______, academic group - FAF ______,\nSubjects / Questions to be considered by mentors\n…\nAdditional notes (optional)\n…\n __________________ \tDate of approval___________________"
+    "full_text": "                         1 июня - ПРОГРАММА  КОНЦЕРТА  \n                 «ДЕТИ – ДЕТЯМ» &  Студия социальных танцев «АЛЬКОР»\n                   \"COPII PENTRU COPII\"   & Studio de dansuri sociale \"ALCOR\"\nначало в 14:30\nStudio de dansuri sociale \"ALCOR\"\nDoamnelor și domnilor,  \n    Studioul de dansuri sociale „Alcor” are onoarea de a vă prezenta un program mic, dar rafinat, inspirat de splendoarea balurilor și seratelor istorice ale secolelor trecute. După cum se știe, balurile mari, erau tradițional deschise cu mărețul polonez, însă la serate, primul dans care invita oaspeții în lumea rafinamentului și grației era adesea valsul.  \n     Din cele mai vechi timpuri, dansul nu a fost doar o artă, ci și un mijloc de a face cunoștință. În societatea mondenă, tânărele domnișoare și cavalerii lor puteau schimba primele priviri și vorbe tocmai pe parcursul dansului, deoarece fără acest pretext, era aproape imposibil să inițiezi o conversație. Astfel, dansul devenea un rar moment de libertate, care deschidea uși către noi cunoștințe și, poate, chiar către povești romantice.\n  Дамы и господа,\n Студия социальных танцев \"Алькор\" имеет честь представить вашему вниманию небольшую, но изысканную программу, вдохновлённую великолепием исторических балов и званых вечеров минувших столетий. Как известно, великие балы традиционно открывались величавым полонезом, однако на званых вечерах нередко первым звучал вальс, приглашая гостей в мир изящества и легкости.\nС незапамятных времён танец служил не только искусством, но и способом знакомства. В светском обществе юные барышни и их кавалеры могли впервые обменяться взглядами и словами именно на танцевальной площадке, ведь без этого предлога подойти и завести беседу было невозможно. Таким образом, танец становился редким моментом свободы, открывавшим двери к новым знакомствам и, возможно, к романтическим историям.\n1/KONTRDANS- Prima mențiune în literatură apare în 1579. Kontrdans își are originea în Anglia la sfârșitul secolului 16 - începutul secolului 17. Mai târziu contradansul s-a răspândit în Franța, de unde a ajuns în Germania și, devenind un dans de sală, se răspândește în toată Europa. În secolul 19 contradansul s-a contopit cu dansul cvadril.\nRegele tuturor balurilor - VALS. Vom prezenta două variante, vals-ecossaise și valsul cu figuri mari.\n2/ VALS MARE\n3/ MARȘ-POLCA\n4/ PA DE GRAS\nВ последнее десятилетие XIX века всю Европу, охватила мода на новые танцы.\nОдним из хореографов-новаторов был Евгений Михайлович Иванов, в 1900 году издавший несколько описаний танцев с нотами, в числе которых был и падеграс.\nО личности автора известно очень мало, почти все сведения почерпнуты из первых изданий его нотных тетрадей: артист (солист) императорских театров, профессор Парижской академии\nТакже преподавал в женских гимназиях и на женских курсах, давал балы в Благородном собрании и Охотничьем клубе. Падеграс подкупал своей простотой, законченностью и лаконичностью.\nБлагодаря его простоте, мы сможем научить и вас танцевать его в Завершении нашего Концерта\n5/VALS-ECOSSAISE\n   На балах не только танцевали, но и устраивали музыкальные и вокальные выступления. \n1. SPÎNU  MAGDALENA, 10 ani, Școala de Muzică, s. Copanca, Prof, Grabarovschaia Nadejda E. Poplianaia – Rățuște vesele\n (Спыну Магдалина,  10 лет.           Музыкальная Школа, с. Копанка Преподаватель Грабаровская Надежда Николаевна     Е.Поплянова «Весёлые утята»)\n2. BIVOL  DARIA, 11 ani , Școala de Muzca, Maria Bieșu, prof. Natalia Gavrilița, conc. Marina Mamaliga   П.И.Чайковский «Мой садик»\n3.  COCARCEA  ION, 10 ani, Școala de Muzică, s. Copanca, Prof. Bolgari Stella                          HANGU-cîntec popular moldavenesc\n Кокарча Иван, 10 лет.       «Хангу»  молдавская народ. песня         \n 4.  PRUTEANU  VARVARA, 10 ani, Școala de Muzică, s. Copanca, Prof, Grabarovschaia Nadejda, Timur Maksimov – Lumina de luna\nПрутяну Варвара,  Т.Максимов  «Лунный свет»\n5. VOITOVICI  DANIIL, 11 ani, Școala de Muzică, s. Copanca, Prof. Burca  Alexandru  Iurii Smirnov – ROMANȚA    Войтович Даниил   - Ю.Смирнов  «Романс» \n 6. CUBIAC  BOGDAN, 12 ani, Școala de Arte, V. Poleacov, prof. Dragoș Natalia -                                 M. Glinca «Melodiceschuu vals»\n7. CIORNÎI  NICOLAI, 11 ani, Școala de Muzică, s. Copanca, Prof. Bolgari Stella     \n    DANS MEXICO                     \nЧерный Николай, аккордеон  - «Мексиканский танец» \n8. ANSAMBLU de FLUERIȘTI «STEJĂREII», 8-9 ani. Liceul Teoretic B. P. Hașdău, Conduc.artist. Danu Dumitru, Maestru de concert Danu Tatiana – SUITA POPULARĂ MOLOVENEASCĂ\nАнсамбль флуеристов «STEJĂREII», «Молдавская народная сюита»       \n9. Dansuri\n1/CHAPELOISE- Denumirea \"chapeloise\" (\"La Chapelloise\") provine de la numele satului francez Chapelle-des-Bois, unde acest dans, conform legendei, a fost pentru prima dată arătat în anul 1970. În Europa, dincolo de granițele Franței și a scenei folclorice de bal, poartă alte denumiri.\n2/SVING-DJEK\nДжазовые танцевальные изобретения не только захватили сердца миллионов, но и дали название этим двадцати годам, известным в истории как «Эпоха свинга». \n  В широком музыкальном смысле он обозначает свободную раскованную ритмику, присущую подлинному джазу с самого рождения. В хореографическом же смысле первые свинговые шаги появились ещё в 1920-х годах в танцах, предшествовавших быстрому фокстроту и линди-хопу. \nНачало свингу, положили афроамериканские переселенцы на американский континент, но сегодня эти движения известны во всем мире (с конца XIX века до 1940-х годов).\n3/ POLCA din FINLANDA\n  Полька произошла из Богемии, но после ее распространения по всему Миру. Появилось множество различных видов национальных полек. Мы представляем вашему вниманию Финский вариант польки\n4/ MASTER CLASS – PA DE GRAS ( если останется время)"
 }

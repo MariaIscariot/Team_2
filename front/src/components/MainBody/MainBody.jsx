@@ -3,10 +3,12 @@ import styles from './index.module.css';
 import History from './Subcomponents/History.jsx';
 import SendMessage from './Subcomponents/SendMessage.jsx';
 import Rezume from './Subcomponents/Rezume.jsx';
+import FileProcessor from '../FileProcessor/FileProcessor';
 
 export default function MainBody({ message }) { 
   const [activeAction, setActiveAction] = useState('Send message'); 
   const [sentMessages, setSentMessages] = useState([]);
+  const [selectedMessage, setSelectedMessage] = useState(null);
 
   useEffect(() => {
     console.log('Fetching data from backend...');
@@ -22,6 +24,9 @@ export default function MainBody({ message }) {
         console.log('Received data:', data);
         if (data.messages && Array.isArray(data.messages)) {
           setSentMessages(data.messages);
+          if (data.messages.length > 0) {
+            setSelectedMessage(data.messages[0]);
+          }
           console.log('Messages set successfully:', data.messages.length, 'messages');
         } else {
           console.error('Invalid data structure:', data);
@@ -39,9 +44,9 @@ export default function MainBody({ message }) {
       case 'Send message':
         return (
           <>
-            <Rezume sentMessages={sentMessages} message={message} />
+            <Rezume sentMessages={sentMessages} message={selectedMessage || message} />
             <div className={styles.line}></div>
-            <SendMessage message={message} sentMessages={sentMessages} setSentMessages={setSentMessages}/>
+            <SendMessage message={selectedMessage || message} sentMessages={sentMessages} setSentMessages={setSentMessages}/>
           </>
         );
       case 'History':
@@ -54,6 +59,8 @@ export default function MainBody({ message }) {
             )}
           </div>
         );
+      case 'Analyse Document':
+        return <FileProcessor />;
       default:
         return <></>;
     }  
