@@ -1,0 +1,39 @@
+📊 EMAIL DELIVERY DEBUG REPORT
+==================================================
+Generated: 2025-06-22 10:43:12
+Sender: test.server.composer@gmail.com
+
+📧 akononciuc@gmail.com
+   Domain: gmail.com
+   Status: ✅ SUCCESS
+   Gmail Response: Email accepted by Gmail SMTP server
+   MX Records: mx.gmail.com
+   SMTP Connection: ❌ Failed
+
+📧 gabrielapr2140@gmail.com
+   Domain: gmail.com
+   Status: ✅ SUCCESS
+   Gmail Response: Email accepted by Gmail SMTP server
+   MX Records: mx.gmail.com
+   SMTP Connection: ❌ Failed
+
+📧 vladislav.titerez@isa.utm.md
+   Domain: isa.utm.md
+   Status: ✅ SUCCESS
+   Gmail Response: Email accepted by Gmail SMTP server
+   MX Records: mx.isa.utm.md
+   SMTP Connection: ❌ Failed
+
+📧 valeria.postica@isa.utm.md
+   Domain: isa.utm.md
+   Status: ✅ SUCCESS
+   Gmail Response: Email accepted by Gmail SMTP server
+   MX Records: mx.isa.utm.md
+   SMTP Connection: ❌ Failed
+
+📈 SUMMARY
+--------------------
+Total Emails: 4
+Successful: 4
+Failed: 0
+Success Rate: 100.0%
