@@ -312,7 +312,7 @@ def summarize_conversation_endpoint():
         
         # Run the resume.py script (from parent directory)
         resume_script = os.path.join(PARENT_DIR, 'resume.py')
-        result = subprocess.run([sys.executable, resume_script], 
+        result = subprocess.run([sys.executable, resume_script, temp_file_path],
                               capture_output=True, 
                               text=True)
         
