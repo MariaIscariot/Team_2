@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+"""
+Email Debugger - Troubleshoot email delivery issues
+"""
+
 import smtplib
 import ssl
 import socket
@@ -10,6 +15,7 @@ import time
 import uuid
 from datetime import datetime
 from typing import List, Optional
+import mimetypes
 
 class EmailDebugger:
     def __init__(self, email_address: str, email_password: str, sender_name: Optional[str] = None):
@@ -70,14 +76,16 @@ class EmailDebugger:
     def send_test_email_with_debug(self, 
                                   to_email: str, 
                                   subject: Optional[str] = None,
-                                  body: Optional[str] = None) -> dict:
+                                  body: Optional[str] = None,
+                                  attachments: Optional[List[str]] = None) -> dict:
         """
-        Send a test email with detailed debugging information
+        Send a test email with detailed debugging information, optionally with attachments
         
         Args:
             to_email (str): Recipient email address
             subject (str): Email subject (optional)
             body (str): Email body (optional)
+            attachments (List[str]): List of file paths to attach (optional)
             
         Returns:
             dict: Detailed results including debugging info
@@ -132,6 +140,28 @@ class EmailDebugger:
             # Add body
             message.attach(MIMEText(body, "plain", "utf-8"))
             
+            # Attach files if provided
+            if attachments:
+                for file_path in attachments:
+                    if not os.path.isfile(file_path):
+                        print(f"[Attachment Debug] File not found: {file_path}")
+                        continue  # Skip if file does not exist
+                    print(f"[Attachment Debug] Attaching file: {file_path}")
+                    ctype, encoding = mimetypes.guess_type(file_path)
+                    if ctype is None or encoding is not None:
+                        ctype = "application/octet-stream"
+                    maintype, subtype = ctype.split('/', 1)
+                    with open(file_path, "rb") as f:
+                        file_content = f.read()
+                    part = MIMEBase(maintype, subtype)
+                    part.set_payload(file_content)
+                    encoders.encode_base64(part)
+                    part.add_header(
+                        "Content-Disposition",
+                        f"attachment; filename=\"{os.path.basename(file_path)}\"",
+                    )
+                    message.attach(part)
+            
             # Create SMTP session
             context = ssl.create_default_context()
             
@@ -154,7 +184,8 @@ class EmailDebugger:
     
     def send_multiple_test_emails(self, 
                                 to_emails: List[str], 
-                                delay: float = 5.0) -> dict:
+                                delay: float = 5.0,
+                                attachments: Optional[List[str]] = None) -> dict:
         """
         Send test emails to multiple recipients with debugging
         
@@ -174,7 +205,7 @@ class EmailDebugger:
         for i, email in enumerate(to_emails, 1):
             print(f"\n📧 [{i}/{len(to_emails)}] Testing: {email}")
             
-            result = self.send_test_email_with_debug(email)
+            result = self.send_test_email_with_debug(email, attachments=attachments)
             results[email] = result
             
             # Print summary
@@ -258,19 +289,34 @@ def main():
     
     # Test emails - including Vladislav's problematic email
     test_emails = [
-        "akononciuc@gmail.com",  # Gmail - should work
+        "dimabelih2004pro3@gmail.com",  # Gmail - should work
         "gabrielapr2140@gmail.com",  # Gmail - should work  
         "vladislav.titerez@isa.utm.md",  # Problematic email
         "valeria.postica@isa.utm.md"  # Test Yahoo
     ]
     
-    print("🔍 EMAIL DELIVERY DEBUGGER")
+    # Example: Send an email with an attachment to a Gmail address
+    attachment_test_email = "your.email@gmail.com"  # <-- Replace with your Gmail address
+    attachment_path = "meeting notes 03.05.25.docx"  # File to send
+    print(f"\n📎 Sending test email with attachment to {attachment_test_email}...")
+    attach_result = debugger.send_test_email_with_debug(
+        to_email=attachment_test_email,
+        subject="Test Email with Attachment (.docx)",
+        body="This email contains an attachment (meeting notes 03.05.25.docx).",
+        attachments=[attachment_path]
+    )
+    if attach_result['email_sent']:
+        print(f"✅ Attachment email sent successfully to {attachment_test_email}")
+    else:
+        print(f"❌ Failed to send attachment email: {attach_result['error']}")
+    
+    print("\n🔍 EMAIL DELIVERY DEBUGGER")
     print("=" * 40)
     print("This tool will help diagnose why Vladislav's emails aren't being delivered.")
     print()
     
     # Run the tests
-    results = debugger.send_multiple_test_emails(test_emails, delay=3.0)
+    results = debugger.send_multiple_test_emails(test_emails, delay=3.0, attachments=["meeting notes 03.05.25.docx"])
     
     # Generate and print report
     print("\n" + "=" * 60)

@@ -49,7 +49,7 @@ def home():
             "/extract-pdf": "POST - Extract text from PDF using RapidAPI",
             "/summarize-conversation": "POST - Generate conversation summary",
             "/generate-response": "POST - Generate response to messages",
-            "/send-message": "POST - Send message to multiple recipients",
+            "/send-message": "POST - Send message with attachment to multiple recipients",
             "/get-subjects": "GET - Get only subject field from inbox messages"
         }
     })
@@ -420,60 +420,55 @@ def generate_response_endpoint():
 
 @app.route('/send-message', methods=['POST'])
 def send_message_endpoint():
-    """Send message to multiple recipients"""
+    """Send message with attachment to multiple recipients"""
     try:
         # Check Content-Type header
-        if not request.is_json:
+        if not request.content_type.startswith('multipart/form-data'):
             return jsonify({
-                "error": "Content-Type must be application/json",
-                "message": "Please set the Content-Type header to 'application/json'",
+                "error": "Content-Type must be multipart/form-data",
+                "message": "Please use multipart/form-data for file upload.",
                 "example": {
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "body": {
-                        "recipients": ["user1@example.com", "user2@example.com"],
-                        "message": "This is the message content to send to all recipients."
+                    "fields": {
+                        "file": "<file>",
+                        "message": "This is the message content to send to all recipients.",
+                        "recipients": '["user1@example.com", "user2@example.com"]'
                     }
                 }
             }), 415
-        
-        data = request.get_json()
-        
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
-        
-        # Validate required fields
-        if 'recipients' not in data:
-            return jsonify({"error": "Missing 'recipients' field"}), 400
-        
-        if 'message' not in data:
+
+        # Parse fields
+        if 'file' not in request.files:
+            return jsonify({"error": "No file provided"}), 400
+        if 'message' not in request.form:
             return jsonify({"error": "Missing 'message' field"}), 400
-        
-        recipients = data['recipients']
-        message_content = data['message']
-        
+        if 'recipients' not in request.form:
+            return jsonify({"error": "Missing 'recipients' field"}), 400
+
+        file = request.files['file']
+        message_content = request.form['message']
+        recipients_raw = request.form['recipients']
+
+        # Parse recipients as JSON array
+        try:
+            recipients = json.loads(recipients_raw)
+        except Exception:
+            return jsonify({"error": "'recipients' must be a JSON array of email addresses as string"}), 400
+
         # Validate recipients is a list
         if not isinstance(recipients, list):
             return jsonify({"error": "'recipients' must be an array of email addresses"}), 400
-        
         if len(recipients) == 0:
             return jsonify({"error": "At least one recipient is required"}), 400
-        
-        # Validate each recipient is a string
         for recipient in recipients:
             if not isinstance(recipient, str) or '@' not in recipient:
                 return jsonify({"error": f"Invalid email address: {recipient}"}), 400
-        
+
         # Check for duplicates
         unique_recipients = list(set(recipients))
         duplicates = len(recipients) - len(unique_recipients)
-        
         if duplicates > 0:
-            # Find which emails are duplicated
             email_counts = Counter(recipients)
             duplicate_emails = [email for email, count in email_counts.items() if count > 1]
-            
             return jsonify({
                 "error": f"Duplicate email addresses found: {duplicate_emails}",
                 "message": f"Found {duplicates} duplicate(s). Please remove duplicates from the recipients array.",
@@ -481,61 +476,55 @@ def send_message_endpoint():
                 "original_count": len(recipients),
                 "unique_count": len(unique_recipients)
             }), 400
-        
-        # Use unique recipients
         recipients = unique_recipients
-        
-        # Initialize EmailDebugger with hardcoded credentials
+
+        # Save uploaded file to uploads folder
+        UPLOAD_FOLDER = 'uploads'
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+
+        # Initialize EmailDebugger
         email_debugger = EmailDebugger(EMAIL_ADDRESS, EMAIL_PASSWORD, "Team 2 Server")
-        
-        # Debug logging
-        print(f"🔍 DEBUG: Sending to {len(recipients)} recipients: {recipients}")
-        print(f"🔍 DEBUG: Message: {message_content[:100]}...")
-        
-        # Send emails to all recipients with custom message
-        results = {}
-        for i, recipient in enumerate(recipients, 1):
-            print(f"🔍 DEBUG: Sending email {i}/{len(recipients)} to {recipient}")
-            
-            # Send email with custom message
-            result = email_debugger.send_test_email_with_debug(
-                to_email=recipient,
-                subject=f"Message from Team 2 Server - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-                body=message_content
-            )
-            results[recipient] = result
-            
-            # Add delay between emails (except for the last one)
-            if i < len(recipients):
-                print(f"🔍 DEBUG: Waiting 2 seconds before next email...")
-                time.sleep(2.0)
-        
-        # Debug logging
-        print(f"🔍 DEBUG: Results received for {len(results)} emails: {list(results.keys())}")
-        
+
+        # Check file size
+        MAX_ATTACHMENT_SIZE_MB = 20  # 20 MB limit for safety
+        if os.path.getsize(filepath) > MAX_ATTACHMENT_SIZE_MB * 1024 * 1024:
+            os.remove(filepath)
+            return jsonify({"error": f"Attachment too large. Max allowed size is {MAX_ATTACHMENT_SIZE_MB} MB."}), 400
+
+        # Send emails to all recipients with the uploaded file as attachment
+        results = email_debugger.send_multiple_test_emails(
+            to_emails=recipients,
+            delay=2.0,
+            attachments=[filepath],
+        )
+
+        # Clean up uploaded file
+        try:
+            os.remove(filepath)
+        except Exception:
+            pass
+
         # Count successful and failed sends
         successful = sum(1 for result in results.values() if result['email_sent'])
         failed = len(results) - successful
-        
-        # Debug logging
-        print(f"🔍 DEBUG: Counted {successful} successful, {failed} failed out of {len(results)} results")
-        print(f"🔍 DEBUG: Expected {len(recipients)} total recipients")
-        
-        # Prepare response
+
         response_data = {
-            "success": True,
-            "message": f"✅ {successful} email(s) sent successfully",
-            "sent_to": [email for email, result in results.items() if result['email_sent']],
-            "total_sent": successful
+            "message": f"Email sending completed. {successful} successful, {failed} failed.",
+            "total_recipients": len(results),
+            "successful_sends": successful,
+            "failed_sends": failed,
+            "results": results
         }
-        
         if failed == 0:
-            return jsonify(response_data), 200
+            return jsonify({"success": True, "message": "All emails sent successfully!"}), 200
         elif successful == 0:
             return jsonify(response_data), 500
         else:
-            return jsonify(response_data), 207  # Multi-status response
-        
+            return jsonify(response_data), 207
+
     except Exception as e:
         return jsonify({"error": str(e), "traceback": traceback.format_exc()}), 500
 
