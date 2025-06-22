@@ -10,34 +10,6 @@ export default function MainBody({ message }) {
   const [sentMessages, setSentMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
-  useEffect(() => {
-    console.log('Fetching data from backend...');
-    fetch('http://localhost:5000/get-subjects')
-      .then((res) => {
-        console.log('Response status:', res.status);
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log('Received data:', data);
-        if (data.messages && Array.isArray(data.messages)) {
-          setSentMessages(data.messages);
-          if (data.messages.length > 0) {
-            setSelectedMessage(data.messages[0]);
-          }
-          console.log('Messages set successfully:', data.messages.length, 'messages');
-        } else {
-          console.error('Invalid data structure:', data);
-          throw new Error('Invalid data structure received');
-        }
-      })
-      .catch((err) => {
-        console.error('Fetch error:', err);
-        setSentMessages([]);
-      });
-  }, []);
 
   const renderContent = () => { 
     switch (activeAction) {
