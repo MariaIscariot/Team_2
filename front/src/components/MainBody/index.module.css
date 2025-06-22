@@ -340,3 +340,8 @@
   background: linear-gradient(90deg, #005fa3 0%, #00a6d4 100%);
   transform: scale(1.05);
 }
+
+.sender{
+  display: flex;
+  justify-content: space-between;
+}

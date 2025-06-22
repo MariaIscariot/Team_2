@@ -4,6 +4,7 @@ import History from './Subcomponents/History.jsx';
 import SendMessage from './Subcomponents/SendMessage.jsx';
 import Rezume from './Subcomponents/Rezume.jsx';
 import FileProcessor from '../FileProcessor/FileProcessor';
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 export default function MainBody({ message, onMessageSelect }) {
   const [activeAction, setActiveAction] = useState('Send message');

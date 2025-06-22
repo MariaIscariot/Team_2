@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from '../index.module.css';
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 export default function SendMessage({ message }) {
   const [messageText, setMessageText] = useState('');
   const [attachedFile, setAttachedFile] = useState(null);
   const fileInputRef = useRef(null);
+  const [approved, setApproved] = useState(null);
+  const [senders, setSenders] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     if (message) {
@@ -49,8 +53,8 @@ export default function SendMessage({ message }) {
     if (!message || !messageText) return;
 
     const formData = new FormData();
-    formData.append('sender', message.reciever);
-    formData.append('reciever', message.sender);
+    formData.append('sender', message.to);
+    formData.append('reciever', senders || message.sender);
     formData.append('subject', message.subject);
     formData.append('description', messageText);
     formData.append('time', new Date().toLocaleString());
@@ -106,6 +110,18 @@ export default function SendMessage({ message }) {
       });
   }
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+ 
+    const splitSenders = value
+      .split(',')
+      .map(s => s.trim())
+      .filter(s => s.length > 0);  
+
+    setSenders(splitSenders);  
+  };
+
   return (
     <>
       {message &&
@@ -114,10 +130,19 @@ export default function SendMessage({ message }) {
             <h2>{message.subject}</h2>
           </div>
           <div className={styles.messageDetails}>
-            <p><strong>From:</strong> {message.sender}</p>
-            <p><strong>To:</strong> {message.to}</p>
+            <p><strong>From:</strong> {message.to}</p>
+            <div className={styles.sender}>
+              <div><p><strong>To:</strong> {senders.length > 0 ? senders.join(', ') : message.sender}</p></div>
+            </div>
+            <div>
+              <input 
+                type="text" 
+                value={inputValue}
+                onChange={handleChange} 
+              />
+            </div>
           </div>
-        </div>
+        </div> 
       }
 
       <div className={styles.messageFields}>
@@ -145,6 +170,22 @@ export default function SendMessage({ message }) {
               onChange={handleFileChange}
               style={{ display: 'none' }}
             />
+ 
+            <div style={{ display: 'flex', alignItems: 'center', gap: '50px', marginBottom: '10px' }}>
+              <FaThumbsUp
+                onClick={() => setApproved('Approved!')}
+                style={{ color: 'gray', cursor: 'pointer' }}
+              />
+              <FaThumbsDown
+                onClick={() => setApproved('We will try more!')}
+                style={{ color: 'gray', cursor: 'pointer' }}
+              /> 
+              {approved != "null" && (
+                <span style={{ color: 'gray', fontWeight: 'bold' }}>{approved}</span>
+              )
+              }
+
+            </div>
           </div>
         </div>
 
